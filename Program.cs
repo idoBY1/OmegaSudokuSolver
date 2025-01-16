@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OmegaSudokuSolver.src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,15 @@ namespace OmegaSudokuSolver
     {
         public static void Main(string[] args)
         {
-            var board = new SudokuBoard<int>(new int[,] {
-                { 0, 1, 0, 4 },
-                { 1, 2, 0, 4 },
-                { 0, 0, 0, 0 },
-                { 1, 3, 0, 0 }
-            });
+            var io = new ConsoleInteraction();
 
-            Console.WriteLine(board.GetStylizedString());
+            io.Print("Enter a board: ");
+
+            SudokuBoard<int> board = io.ReadBoard<int>(0, 3);
+
+            io.Print("The board you entered: \n");
+
+            io.PrintBoard(board);
         }
     }
 }
