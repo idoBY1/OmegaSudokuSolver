@@ -21,8 +21,15 @@ namespace OmegaSudokuSolver
             io.Print("The board you entered: \n");
             io.PrintBoard(board);
 
-            io.Print("The board string: ");
-            io.PrintBoardString(board);
+            var solver = new BasicBacktrackingSolver<int>();
+
+            io.Print("Solving board...");
+
+            solver.Solve(board);
+
+            io.Print("Finished.\nResult: ");
+
+            io.PrintBoard(board);
 
             var checker = new SetChecker<int>();
 
