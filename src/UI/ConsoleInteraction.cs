@@ -59,7 +59,7 @@ namespace OmegaSudokuSolver
         {
             int boardSideLength = blockSideLength * blockSideLength;
 
-            var board = new SudokuBoard<int>(blockSideLength, legalValues);
+            var board = new SudokuBoard<int>(blockSideLength, legalValues, emptySquareNumber);
 
             for (int i = 0; i < boardSideLength; i++)
             {
