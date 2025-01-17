@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,11 @@ namespace OmegaSudokuSolver
 
             io.Print("The board string: ");
             io.PrintBoardString(board);
+
+            var checker = new SetChecker<int>();
+
+            io.Print($"Is board legal? {checker.IsLegal(board)}");
+            io.Print($"Is board solved? {checker.IsSolved(board)}");
         }
     }
 }
