@@ -15,11 +15,15 @@ namespace OmegaSudokuSolver
 
             io.Print("Enter a board: ");
 
-            SudokuBoard<int> board = io.ReadBoard<int>(0, 3);
+            SudokuBoard<int> board = io.ReadBoard(0, 3);
 
             io.Print("The board you entered: \n");
 
             io.PrintBoard(board);
+
+            io.Print("The board string: ");
+
+            io.PrintBoardString(board);
         }
     }
 }

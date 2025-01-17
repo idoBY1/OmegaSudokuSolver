@@ -18,6 +18,11 @@ namespace OmegaSudokuSolver.src
             Console.WriteLine(board.GetStylizedString());
         }
 
+        public void PrintBoardString<T>(SudokuBoard<T> board)
+        {
+            Console.WriteLine(board.ToString());
+        }
+
         public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength)
         {
             if (emptySquareObject == null)

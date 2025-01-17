@@ -32,5 +32,12 @@ namespace OmegaSudokuSolver
         /// <typeparam name="T">The type of data at each square of the board.</typeparam>
         /// <param name="board">The board to print.</param>
         public void PrintBoard<T>(SudokuBoard<T> board);
+
+        /// <summary>
+        /// Print a string of characters that represent the board.
+        /// </summary>
+        /// <typeparam name="T">The type of data at each square of the board.</typeparam>
+        /// <param name="board">The board to print.</param>
+        public void PrintBoardString<T>(SudokuBoard<T> board);
     }
 }
