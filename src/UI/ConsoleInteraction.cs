@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OmegaSudokuSolver.src
+namespace OmegaSudokuSolver
 {
-    internal class ConsoleInteraction : IUserInteraction
+    /// <summary>
+    /// Class for input and output through the console.
+    /// </summary>
+    public class ConsoleInteraction : IUserInteraction
     {
         public void Print(string msg)
         {
@@ -23,7 +26,7 @@ namespace OmegaSudokuSolver.src
             Console.WriteLine(board.ToString());
         }
 
-        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength)
+        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues)
         {
             if (emptySquareObject == null)
             {
@@ -32,8 +35,9 @@ namespace OmegaSudokuSolver.src
 
             if (typeof(T) == typeof(int))
             {
+                // Create a new int Sudoku board
                 return (SudokuBoard<T>)Convert.ChangeType(
-                    ReadIntBoard((int)Convert.ChangeType(emptySquareObject, typeof(int)), blockSideLength), 
+                    ReadIntBoard((int)Convert.ChangeType(emptySquareObject, typeof(int)), blockSideLength, legalValues.Cast<int>()),
                     typeof(SudokuBoard<T>));
             }
             else
@@ -48,13 +52,14 @@ namespace OmegaSudokuSolver.src
         /// <param name="emptySquareNumber">The number that should be read as an empty square in the board.</param>
         /// <param name="blockSideLength">The length of a side of an inner block of the board. <br/>
         /// The final full board will be of size (blockSideLength^2 X blockSideLength^2).</param>
+        /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
         /// <returns>An int SudokuBoard object</returns>
         /// <exception cref="IOException">Throws this exception if the input is not long enough to populate the entire board</exception>
-        private SudokuBoard<int> ReadIntBoard(int emptySquareNumber, int blockSideLength)
+        private SudokuBoard<int> ReadIntBoard(int emptySquareNumber, int blockSideLength, IEnumerable<int> legalValues)
         {
             int boardSideLength = blockSideLength * blockSideLength;
 
-            var board = new SudokuBoard<int>(blockSideLength);
+            var board = new SudokuBoard<int>(blockSideLength, legalValues);
 
             for (int i = 0; i < boardSideLength; i++)
             {

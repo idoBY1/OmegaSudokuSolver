@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,8 @@ namespace OmegaSudokuSolver
         // The 2d array representing the board.
         private T[,] _board;
 
+        public FrozenSet<T> LegalValues { get; }
+
         // The length of an inner block of the board
         public int BlockSideLength { get; private set; }
 
@@ -24,10 +28,13 @@ namespace OmegaSudokuSolver
         /// </summary>
         /// <param name="blockSideLength">The number to generate the board from. 
         /// Represents a row/column size of an inner block of the board.</param>
-        public SudokuBoard(int blockSideLength)
+        /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
+        public SudokuBoard(int blockSideLength, IEnumerable<T> legalValues)
         {
             _board = new T[blockSideLength * blockSideLength, blockSideLength * blockSideLength];
             BlockSideLength = blockSideLength;
+
+            LegalValues = legalValues.ToFrozenSet();
         }
 
         /// <summary>
@@ -36,8 +43,9 @@ namespace OmegaSudokuSolver
         /// </summary>
         /// <param name="values">The 2 dimensional array to create the board from. The board will point to 
         /// the array given (The array will not be copied).</param>
+        /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
         /// <exception cref="ArgumentException">Returns an exception if the size of the 2 dimensional array is invalid.</exception>
-        public SudokuBoard(T[,] values)
+        public SudokuBoard(T[,] values, IEnumerable<T> legalValues)
         {
             if (values.GetLength(0) != values.GetLength(1))
                 throw new ArgumentException("The amount of rows must be equal to the amount of columns!");
@@ -46,6 +54,8 @@ namespace OmegaSudokuSolver
 
             _board = values;
             BlockSideLength = (int)Math.Sqrt(values.GetLength(0));
+
+            LegalValues = legalValues.ToFrozenSet();
         }
 
         /// <summary>

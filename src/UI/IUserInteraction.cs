@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// Interface for handling input and output to the user.
+    /// </summary>
     public interface IUserInteraction
     {
         /// <summary>
@@ -21,10 +24,11 @@ namespace OmegaSudokuSolver
         /// <param name="emptySquareObject">The object that should be read as an empty square in the board.</param>
         /// <param name="blockSideLength">The length of a side of an inner block of the board. <br/>
         /// The final full board will be of size (blockSideLength^2 X blockSideLength^2).</param>
+        /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
         /// <returns>A SudokuBoard object</returns>
         /// <exception cref="ArgumentException">Throws this if the type is not supported</exception>
         /// <exception cref="ArgumentNullException">Throws this exception if receives a null 'emptySquareObject'</exception>
-        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength);
+        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues);
 
         /// <summary>
         /// Print the board to the user.
