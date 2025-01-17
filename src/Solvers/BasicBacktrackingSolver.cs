@@ -29,7 +29,7 @@ namespace OmegaSudokuSolver
                 int blockRow = pos / (boardWidth * board.BlockSideLength);
 
                 // The number of column of the current block (for a 9 X 9 board can be 0, 1 or 2. if pos was 35 for example, it will be 2 (because third block-column))
-                int blockColumn = ((pos - blockRow) % boardWidth) / board.BlockSideLength; 
+                int blockColumn = (pos % boardWidth) / board.BlockSideLength;
 
                 for (int i = 0; i < boardWidth; i++)
                 {

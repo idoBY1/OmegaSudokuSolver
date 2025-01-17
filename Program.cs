@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,9 +26,13 @@ namespace OmegaSudokuSolver
 
             io.Print("Solving board...");
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             solver.Solve(board);
 
-            io.Print("Finished.\nResult: ");
+            sw.Stop();
+
+            io.Print($"Finished.\nElapsed time: {sw.Elapsed.TotalMilliseconds} milliseconds\nResult: ");
 
             io.PrintBoard(board);
 
