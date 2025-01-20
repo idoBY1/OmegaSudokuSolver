@@ -8,11 +8,17 @@ namespace OmegaSudokuSolver
 {
     public class BasicBacktrackingSolver<T> : ISolver<T>
     {
-        public void Solve(SudokuBoard<T> board)
+        public bool Solve(SudokuBoard<T> board)
         {
-            SolveSquare(board, 0);
+            return SolveSquare(board, 0);
         }
 
+        /// <summary>
+        /// A recursive function for solving the board square by square.
+        /// </summary>
+        /// <param name="board">The board to solve.</param>
+        /// <param name="pos">The position of the current square in the board from the upper left corner.</param>
+        /// <returns>'true' if the board is solved and 'false' if it's not.</returns>
         private bool SolveSquare(SudokuBoard<T> board, int pos)
         {
             int boardWidth = board.BlockSideLength * board.BlockSideLength;

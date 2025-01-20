@@ -26,7 +26,7 @@ namespace OmegaSudokuSolver
         /// and it has no empty squares left to fill.
         /// </summary>
         /// <param name="board">The board to check.</param>
-        /// <returns>'true' if the board is solved and 'false' if it's not</returns>
+        /// <returns>'true' if the board is solved and 'false' if it's not.</returns>
         public bool IsSolved(SudokuBoard<T> board);
     }
 }

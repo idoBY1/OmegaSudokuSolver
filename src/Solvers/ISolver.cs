@@ -16,6 +16,7 @@ namespace OmegaSudokuSolver
         /// Solve the Sudoku board by filling in all of the missing values.
         /// </summary>
         /// <param name="board">The board to solve.</param>
-        public void Solve(SudokuBoard<T> board);
+        /// <returns>'true' if solved the board and 'false' if failed</returns>
+        public bool Solve(SudokuBoard<T> board);
     }
 }
