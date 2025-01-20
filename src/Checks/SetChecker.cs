@@ -12,24 +12,36 @@ namespace OmegaSudokuSolver
     /// <typeparam name="T">The type of data at each square of the board.</typeparam>
     public class SetChecker<T> : IBoardChecker<T>
     {
+        public bool IsFull(SudokuBoard<T> board)
+        {
+            for (int i = 0; i < board.Width; i++)
+            {
+                for (int j = 0; j < board.Width; j++)
+                {
+                    if (board[i, j].Equals(board.EmptyValue))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
         public bool IsLegal(SudokuBoard<T> board)
         {
-            int boardWidth = board.BlockSideLength * board.BlockSideLength;
-
             var blockSets = new HashSet<T>[board.BlockSideLength, board.BlockSideLength];
-            var colsSets = new HashSet<T>[boardWidth];
-            var rowsSets = new HashSet<T>[boardWidth];
+            var colsSets = new HashSet<T>[board.Width];
+            var rowsSets = new HashSet<T>[board.Width];
 
-            for (int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < board.Width; i++)
             {
                 blockSets[i / 3, i % 3] = new HashSet<T>();
                 colsSets[i] = new HashSet<T>();
                 rowsSets[i] = new HashSet<T>();
             }
 
-            for (int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < board.Width; i++)
             {
-                for (int j = 0; j < boardWidth; j++)
+                for (int j = 0; j < board.Width; j++)
                 {
                     if (blockSets[i / 3, j / 3].Contains(board[i, j])
                         || colsSets[j].Contains(board[i, j])
@@ -53,22 +65,20 @@ namespace OmegaSudokuSolver
 
         public bool IsSolved(SudokuBoard<T> board)
         {
-            int boardWidth = board.BlockSideLength * board.BlockSideLength;
-
             var blockSets = new HashSet<T>[board.BlockSideLength, board.BlockSideLength];
-            var colsSets = new HashSet<T>[boardWidth];
-            var rowsSets = new HashSet<T>[boardWidth];
+            var colsSets = new HashSet<T>[board.Width];
+            var rowsSets = new HashSet<T>[board.Width];
 
-            for (int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < board.Width; i++)
             {
                 blockSets[i / 3, i % 3] = new HashSet<T>();
                 colsSets[i] = new HashSet<T>();
                 rowsSets[i] = new HashSet<T>();
             }
 
-            for (int i = 0; i < boardWidth; i++)
+            for (int i = 0; i < board.Width; i++)
             {
-                for (int j = 0; j < boardWidth; j++)
+                for (int j = 0; j < board.Width; j++)
                 {
                     if (board[i, j].Equals(board.EmptyValue))
                         return false;

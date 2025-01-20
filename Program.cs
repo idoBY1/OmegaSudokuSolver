@@ -22,7 +22,7 @@ namespace OmegaSudokuSolver
             io.Print("The board you entered: \n");
             io.PrintBoard(board);
 
-            var solver = new BasicBacktrackingSolver<int>();
+            var solver = new RuleBasedSolver<int>();
 
             io.Print("Solving board...");
 

@@ -26,6 +26,9 @@ namespace OmegaSudokuSolver
         // The length of an inner block of the board.
         public int BlockSideLength { get; private set; }
 
+        // The width of the board or BlockSideLength^2.
+        public int Width { get; private set; }
+
         /// <summary>
         /// Create a new empty SudokuBoard object.
         /// The size of the board will be [ blockSideLength ^ 2 X blockSideLength ^ 2 ]
@@ -39,6 +42,7 @@ namespace OmegaSudokuSolver
         {
             _board = new T[blockSideLength * blockSideLength, blockSideLength * blockSideLength];
             BlockSideLength = blockSideLength;
+            Width = BlockSideLength * blockSideLength;
 
             LegalValues = legalValues.ToFrozenSet();
 
@@ -67,6 +71,7 @@ namespace OmegaSudokuSolver
 
             _board = values;
             BlockSideLength = (int)Math.Sqrt(values.GetLength(0));
+            Width = values.GetLength(0);
 
             LegalValues = legalValues.ToFrozenSet();
 

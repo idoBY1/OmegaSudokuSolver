@@ -21,44 +21,42 @@ namespace OmegaSudokuSolver
         /// <returns>'true' if the board is solved and 'false' if it's not.</returns>
         private bool SolveSquare(SudokuBoard<T> board, int pos)
         {
-            int boardWidth = board.BlockSideLength * board.BlockSideLength;
-
-            if (pos >= boardWidth * boardWidth)
+            if (pos >= board.Width * board.Width)
                 return (new SetChecker<T>()).IsSolved(board);
 
-            if (board[pos / boardWidth, pos % boardWidth].Equals(board.EmptyValue))
+            if (board[pos / board.Width, pos % board.Width].Equals(board.EmptyValue))
             {
                 HashSet<T> possibilities = board.LegalValues.ToHashSet();
                 possibilities.Remove(board.EmptyValue);
 
                 // The number of row of the current block (for a 9 X 9 board can be 0, 1 or 2. if pos was 35 for example, it will be 1 (because second block-row))
-                int blockRow = pos / (boardWidth * board.BlockSideLength);
+                int blockRow = pos / (board.Width * board.BlockSideLength);
 
                 // The number of column of the current block (for a 9 X 9 board can be 0, 1 or 2. if pos was 35 for example, it will be 2 (because third block-column))
-                int blockColumn = (pos % boardWidth) / board.BlockSideLength;
+                int blockColumn = (pos % board.Width) / board.BlockSideLength;
 
-                for (int i = 0; i < boardWidth; i++)
+                for (int i = 0; i < board.Width; i++)
                 {
                     // Remove from block
                     possibilities.Remove(board[blockRow * board.BlockSideLength + (i / board.BlockSideLength),
                         blockColumn * board.BlockSideLength + (i % board.BlockSideLength)]);
 
                     // Remove from column
-                    possibilities.Remove(board[i, pos % boardWidth]);
+                    possibilities.Remove(board[i, pos % board.Width]);
 
                     // Remove from row
-                    possibilities.Remove(board[pos / boardWidth, i]);
+                    possibilities.Remove(board[pos / board.Width, i]);
                 }
 
                 foreach (T val in possibilities)
                 {
-                    board[pos / boardWidth, pos % boardWidth] = val;
+                    board[pos / board.Width, pos % board.Width] = val;
 
                     if (SolveSquare(board, pos + 1))
                         return true;
                 }
 
-                board[pos / boardWidth, pos % boardWidth] = board.EmptyValue;
+                board[pos / board.Width, pos % board.Width] = board.EmptyValue;
                 return false;
             }
             else
