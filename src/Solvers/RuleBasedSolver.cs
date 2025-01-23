@@ -47,7 +47,7 @@ namespace OmegaSudokuSolver
                 notes.Remove(pos);
                 board[row, col] = val;
 
-                if (RuleBasedBackTrack(board, new Dictionary<int, HashSet<T>>(notes)))
+                if (RuleBasedBackTrack(board, CopyNotes(notes)))
                     return true;
             }
 
@@ -98,6 +98,18 @@ namespace OmegaSudokuSolver
                     note.Value.Remove(board[row, i]);
                 }
             }
+        }
+
+        private Dictionary<int, HashSet<T>> CopyNotes(Dictionary<int, HashSet<T>> notes)
+        {
+            var result = new Dictionary<int, HashSet<T>>();
+
+            foreach (var note in notes)
+            {
+                result.Add(note.Key, new HashSet<T>(note.Value));
+            }
+
+            return result;
         }
     }
 }
