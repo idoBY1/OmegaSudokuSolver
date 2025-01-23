@@ -12,19 +12,7 @@ namespace OmegaSudokuSolver
 
         public bool Solve(SudokuBoard<T> board)
         {
-            var notes = new Dictionary<int, HashSet<T>>();
-
-            HashSet<T> possibleValues = board.LegalValues.ToHashSet();
-            possibleValues.Remove(board.EmptyValue);
-
-            for (int i = 0; i < board.Width; i++)
-            {
-                for (int j = 0; j < board.Width; j++)
-                {
-                    if (board[i, j].Equals(board.EmptyValue))
-                        notes.Add(i * board.Width + j, new HashSet<T>(possibleValues));
-                }
-            }
+            Dictionary<int, HashSet<T>> notes = SolveUtils.GenerateBoardNotes(board);
 
             return RuleBasedBackTrack(board, notes);
         }
@@ -32,7 +20,10 @@ namespace OmegaSudokuSolver
         private bool RuleBasedBackTrack(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
         {
             ClearObviousNotes(board, notes);
-            int pos = FindLeastNotesIndex(notes);
+
+            // TODO implement and call obvious tuples here
+
+            int pos = SolveUtils.FindLeastNotesIndex(notes);
 
             if (checker.IsFull(board) || pos == -1)
             {
@@ -47,29 +38,12 @@ namespace OmegaSudokuSolver
                 notes.Remove(pos);
                 board[row, col] = val;
 
-                if (RuleBasedBackTrack(board, CopyNotes(notes)))
+                if (RuleBasedBackTrack(board, SolveUtils.CopyNotes(notes)))
                     return true;
             }
 
             board[row, col] = board.EmptyValue;
             return false;
-        }
-
-        private int FindLeastNotesIndex(Dictionary<int, HashSet<T>> notes)
-        {
-            int minIndex = -1;
-            int minSize = int.MaxValue;
-
-            foreach (var note in notes)
-            {
-                if (note.Value.Count < minSize)
-                {
-                    minIndex = note.Key;
-                    minSize = note.Value.Count;
-                }
-            }
-
-            return minIndex;
         }
 
         private void ClearObviousNotes(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
@@ -98,18 +72,6 @@ namespace OmegaSudokuSolver
                     note.Value.Remove(board[row, i]);
                 }
             }
-        }
-
-        private Dictionary<int, HashSet<T>> CopyNotes(Dictionary<int, HashSet<T>> notes)
-        {
-            var result = new Dictionary<int, HashSet<T>>();
-
-            foreach (var note in notes)
-            {
-                result.Add(note.Key, new HashSet<T>(note.Value));
-            }
-
-            return result;
         }
     }
 }
