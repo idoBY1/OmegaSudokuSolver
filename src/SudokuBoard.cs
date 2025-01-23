@@ -81,6 +81,24 @@ namespace OmegaSudokuSolver
             EmptyValue = emptyValue;
         }
 
+        public SudokuBoard(SudokuBoard<T> other)
+        {
+            _board = new T[other.Width, other.Width];
+
+            for (int i = 0; i < other.Width; i++)
+            {
+                for (int j = 0; j < other.Width; j++)
+                {
+                    _board[i, j] = other._board[i, j];
+                }
+            }
+            
+            LegalValues = other.LegalValues;
+            EmptyValue = other.EmptyValue;
+            BlockSideLength = other.BlockSideLength;
+            Width = other.Width;
+        }
+
         /// <summary>
         /// Access the item at row 'row' and column 'col' of the board.
         /// </summary>

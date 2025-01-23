@@ -8,7 +8,7 @@ namespace OmegaSudokuSolver
 {
     public class BasicBacktrackingSolver<T> : ISolver<T>
     {
-        public bool Solve(SudokuBoard<T> board)
+        public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
             return SolveSquare(board, 0);
         }
@@ -19,10 +19,16 @@ namespace OmegaSudokuSolver
         /// <param name="board">The board to solve.</param>
         /// <param name="pos">The position of the current square in the board from the upper left corner.</param>
         /// <returns>'true' if the board is solved and 'false' if it's not.</returns>
-        private bool SolveSquare(SudokuBoard<T> board, int pos)
+        private SudokuBoard<T> SolveSquare(SudokuBoard<T> board, int pos)
         {
             if (pos >= board.Width * board.Width)
-                return (new SetChecker<T>()).IsSolved(board);
+            {
+                if ((new SetChecker<T>()).IsSolved(board))
+                    return board;
+                else
+                    return null;
+            }
+                
 
             if (board[pos / board.Width, pos % board.Width].Equals(board.EmptyValue))
             {
@@ -52,12 +58,14 @@ namespace OmegaSudokuSolver
                 {
                     board[pos / board.Width, pos % board.Width] = val;
 
-                    if (SolveSquare(board, pos + 1))
-                        return true;
+                    var result = SolveSquare(board, pos + 1);
+
+                    if (result != null)
+                        return result;
                 }
 
                 board[pos / board.Width, pos % board.Width] = board.EmptyValue;
-                return false;
+                return null;
             }
             else
                 return SolveSquare(board, pos + 1);

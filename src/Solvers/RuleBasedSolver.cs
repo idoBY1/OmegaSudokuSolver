@@ -10,16 +10,25 @@ namespace OmegaSudokuSolver
     {
         private static readonly IBoardChecker<T> checker = new SetChecker<T>();
 
-        public bool Solve(SudokuBoard<T> board)
+        public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
             Dictionary<int, HashSet<T>> notes = SolveUtils.GenerateBoardNotes(board);
 
-            return RuleBasedBackTrack(board, notes);
+            return RuleBasedBackTrack(new SudokuBoard<T>(board), notes);
         }
 
-        private bool RuleBasedBackTrack(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private SudokuBoard<T> RuleBasedBackTrack(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
         {
-            ClearObviousNotes(board, notes);
+            bool updated = true;
+
+            while (updated)
+            {
+                updated = false;
+
+                ClearTrivialNotes(board, notes);
+
+                updated = ApplySingles(board, notes);
+            }
 
             // TODO implement and call obvious tuples here
 
@@ -27,7 +36,10 @@ namespace OmegaSudokuSolver
 
             if (checker.IsFull(board) || pos == -1)
             {
-                return checker.IsSolved(board);
+                if (checker.IsSolved(board))
+                    return board;
+                else
+                    return null;
             }
 
             int row = pos / board.Width;
@@ -38,15 +50,17 @@ namespace OmegaSudokuSolver
                 notes.Remove(pos);
                 board[row, col] = val;
 
-                if (RuleBasedBackTrack(board, SolveUtils.CopyNotes(notes)))
-                    return true;
+                var result = RuleBasedBackTrack(new SudokuBoard<T>(board), SolveUtils.CopyNotes(notes));
+
+                if (result != null)
+                    return result;
             }
 
             board[row, col] = board.EmptyValue;
-            return false;
+            return null;
         }
 
-        private void ClearObviousNotes(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private void ClearTrivialNotes(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
         {
             foreach (var note in notes)
             {
@@ -72,6 +86,31 @@ namespace OmegaSudokuSolver
                     note.Value.Remove(board[row, i]);
                 }
             }
+        }
+
+        private bool ApplySingles(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        {
+            bool updated = false;
+
+            foreach (var note in notes)
+            {
+                if (note.Value.Count == 0)
+                    return false;
+
+                if (note.Value.Count == 1)
+                {
+                    board[note.Key / board.Width, note.Key % board.Width] = note.Value.ElementAt(0);
+                    updated = true;
+                    notes.Remove(note.Key);
+                }
+            }
+
+            return updated;
+        }
+
+        private bool ObviousTuples(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        {
+            throw new NotImplementedException();
         }
     }
 }

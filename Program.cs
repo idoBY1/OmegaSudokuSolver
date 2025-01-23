@@ -28,18 +28,25 @@ namespace OmegaSudokuSolver
 
             Stopwatch sw = Stopwatch.StartNew();
 
-            solver.Solve(board);
+            var solvedBoard = solver.Solve(board);
 
             sw.Stop();
 
             io.Print($"Finished.\nElapsed time: {sw.Elapsed.TotalMilliseconds} milliseconds\nResult: ");
 
-            io.PrintBoard(board);
+            if (solvedBoard != null)
+            {
+                io.PrintBoard(solvedBoard);
 
-            var checker = new SetChecker<int>();
+                var checker = new SetChecker<int>();
 
-            io.Print($"Is board legal? {checker.IsLegal(board)}");
-            io.Print($"Is board solved? {checker.IsSolved(board)}");
+                io.Print($"Is board legal? {checker.IsLegal(solvedBoard)}");
+                io.Print($"Is board solved? {checker.IsSolved(solvedBoard)}");
+            }
+            else
+            {
+                io.Print("Failed to solve board");
+            }
         }
     }
 }
