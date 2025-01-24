@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
-    public class RuleBasedSolver<T> : ISolver<T>
+    public class BitwiseSolver<T> : ISolver<T>
     {
         private static readonly IBoardChecker<T> checker = new SetChecker<T>();
 
         public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
-            Dictionary<int, HashSet<T>> notes = SetSolveUtils.GenerateBoardNotes(board);
+            //Dictionary<int, HashSet<T>> notes = SetSolveUtils.GenerateBoardNotes(board);
 
-            return RuleBasedBackTrack(new SudokuBoard<T>(board), notes);
+            //return BitwiseBackTrack(new SudokuBoard<T>(board), notes);
+
+            throw new NotImplementedException(); // TODO implement solver
         }
 
-        private SudokuBoard<T> RuleBasedBackTrack(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private SudokuBoard<T> BitwiseBackTrack(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
         {
             bool updated = true;
 
@@ -45,7 +47,7 @@ namespace OmegaSudokuSolver
                 notes.Remove(pos);
                 board.Set(pos, val);
 
-                var result = RuleBasedBackTrack(new SudokuBoard<T>(board), SetSolveUtils.CopyNotes(notes));
+                var result = BitwiseBackTrack(new SudokuBoard<T>(board), SetSolveUtils.CopyNotes(notes));
 
                 if (result != null)
                     return result;

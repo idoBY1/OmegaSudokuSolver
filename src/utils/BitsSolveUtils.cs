@@ -6,8 +6,30 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
-    public class SolveUtils
+    public class BitsSolveUtils
     {
+        // Array for conversion from nible to amount of bits activated.
+        private static readonly int[] num_to_bits = new int[16] { 0, 1, 1, 2, 1, 2, 2,
+                                             3, 1, 2, 2, 3, 2, 3, 3, 4 };
+
+        /// <summary>
+        /// Counts the amount of activated bits in the value.
+        /// </summary>
+        /// <param name="bits">The value to count the activated bits from.</param>
+        /// <returns>The number of activated bits.</returns>
+        public static int CountActivatedBits(int bits)
+        {
+            int count = 0;
+
+            while (bits != 0)
+            {
+                count += num_to_bits[bits & 0x0f];
+                bits >>= 4;
+            }
+
+            return count;
+        }
+
         /// <summary>
         /// Generates and returns a notes dictionary for the current board. <br/>
         /// A notes dictionary is a dictionary that contains all of the possible <br/>
@@ -15,20 +37,28 @@ namespace OmegaSudokuSolver
         /// </summary>
         /// <typeparam name="T">The type of data at each square of the board.</typeparam>
         /// <param name="board">The board to generate notes to.</param>
-        /// <returns>The notes dictionary generated.</returns>
-        public static Dictionary<int, HashSet<T>> GenerateBoardNotes<T>(SudokuBoard<T> board)
+        /// <returns>The notes dictionary generated containing bit maps of posssible values.</returns>
+        public static Dictionary<int, int> GenerateBoardNotes<T>(SudokuBoard<T> board)
         {
-            var notes = new Dictionary<int, HashSet<T>>();
-
-            HashSet<T> possibleValues = board.LegalValues.ToHashSet();
-            possibleValues.Remove(board.EmptyValue);
+            var notes = new Dictionary<int, int>();
 
             for (int i = 0; i < board.Width; i++)
             {
                 for (int j = 0; j < board.Width; j++)
                 {
                     if (board[i, j].Equals(board.EmptyValue))
-                        notes.Add(i * board.Width + j, new HashSet<T>(possibleValues));
+                    {
+                        int bits = 0;
+
+                        // Activate positions for all of the possible values
+                        for (int k = 0; k < board.LegalValues.Count - 1; k++)
+                        {
+                            bits <<= 1;
+                            bits &= 1;
+                        }
+
+                        notes.Add(i * board.Width + j, bits);
+                    }                       
                 }
             }
 
@@ -38,39 +68,32 @@ namespace OmegaSudokuSolver
         /// <summary>
         /// Creates a copy of the notes dictionary.
         /// </summary>
-        /// <typeparam name="T">The type of data at each square of the board.</typeparam>
         /// <param name="notes">The dictionary to copy.</param>
         /// <returns>The copy created.</returns>
-        public static Dictionary<int, HashSet<T>> CopyNotes<T>(Dictionary<int, HashSet<T>> notes)
+        public static Dictionary<int, int> CopyNotes(Dictionary<int, int> notes)
         {
-            var result = new Dictionary<int, HashSet<T>>();
-
-            foreach (var note in notes)
-            {
-                result.Add(note.Key, new HashSet<T>(note.Value));
-            }
-
-            return result;
+            return new Dictionary<int, int>(notes);
         }
 
         /// <summary>
         /// Finds The index of the square with the least possibilties left.
         /// </summary>
-        /// <typeparam name="T">The type of data at each square of the board.</typeparam>
         /// <param name="notes">The notes dictionary of the board.</param>
         /// <returns>Index in the board starting from the upper left corner. <br/> 
         /// index / width is row and index % width is column.</returns>
-        public static int FindLeastNotesIndex<T>(Dictionary<int, HashSet<T>> notes)
+        public static int FindLeastNotesIndex(Dictionary<int, int> notes)
         {
             int minIndex = -1;
             int minSize = int.MaxValue;
 
             foreach (var note in notes)
             {
-                if (note.Value.Count < minSize)
+                int count = CountActivatedBits(note.Value);
+
+                if (count < minSize)
                 {
                     minIndex = note.Key;
-                    minSize = note.Value.Count;
+                    minSize = count;
                 }
             }
 
@@ -102,7 +125,7 @@ namespace OmegaSudokuSolver
         }
 
         // Helper function for GetCombinations()
-        private static void GetCombinationsRecursive<T>(IEnumerable<T> values, int combinationSize, 
+        private static void GetCombinationsRecursive<T>(IEnumerable<T> values, int combinationSize,
             HashSet<HashSet<T>> combinations, HashSet<T> currComb, int i = 0)
         {
             if (currComb.Count == combinationSize)
