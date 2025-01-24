@@ -112,6 +112,26 @@ namespace OmegaSudokuSolver
         }
 
         /// <summary>
+        /// Index the board with a single value. The index is from the top-left corner of the board.
+        /// </summary>
+        /// <param name="index">The index to get the value from.</param>
+        /// <returns>Returns the value at the given index.</returns>
+        public T Get(int index)
+        {
+            return _board[index / Width, index % Width];
+        }
+
+        /// <summary>
+        /// Set the value of a square of the board using a single index.
+        /// </summary>
+        /// <param name="index">The index of the position to set.</param>
+        /// <param name="value">The value to set the square to.</param>
+        public void Set(int index, T value)
+        {
+            _board[index / Width, index % Width] = value;
+        }
+
+        /// <summary>
         /// Returns a 2 dimensional array representing the state of the board.
         /// </summary>
         /// <returns>A 2 dimensional array.</returns>
