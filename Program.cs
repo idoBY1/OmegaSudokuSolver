@@ -17,12 +17,12 @@ namespace OmegaSudokuSolver
 
             io.Print("Enter a board: ");
 
-            SudokuBoard<int> board = io.ReadBoard(0, 3, Enumerable.Range(0, 10));
+            SudokuBoard<int> board = io.ReadBoard(0, 3, Enumerable.Range(1, 9));
 
             io.Print("The board you entered: \n");
             io.PrintBoard(board);
 
-            var solver = new RuleBasedSolver<int>();
+            var solver = new BitwiseSolver<int>();
 
             io.Print("Solving board...");
 

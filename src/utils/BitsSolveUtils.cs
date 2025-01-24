@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,91 @@ namespace OmegaSudokuSolver
         }
 
         /// <summary>
+        /// Returns the position of the first activated bit (from the right).
+        /// </summary>
+        /// <param name="bits">The value to find the bit in.</param>
+        /// <returns>The index from the right of the number where the bit was found. Returns -1 if no bits are activated.</returns>
+        public static int FirstActivatedBitPos(int bits)
+        {
+            int pos = -1;
+
+            while (bits != 0)
+            {
+                pos++;
+
+                if ((bits & 1) != 0)
+                    break;
+
+                bits >>= 1;
+            }
+
+            return pos;
+        }
+
+        /// <summary>
+        /// Converts a SudokuBoard to a SudokuBoard containing bits as values. <br/>
+        /// Built to work with bitwise notes.
+        /// </summary>
+        /// <typeparam name="T">The type of data at each square of the board.</typeparam>
+        /// <param name="board">The board to convert.</param>
+        /// <returns>The converted board.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static SudokuBoard<int> ConvertBoardToBitwise<T>(SudokuBoard<T> board)
+        {
+            if (board.LegalValues.Count > 32)
+                throw new ArgumentException("Board values must fit into a 32 bit representation.");
+
+            List<int> bitValues = new List<int>();
+
+            for (int i = 0; i < board.LegalValues.Count; i++)
+            {
+                bitValues.Add(1 << i);
+            }
+
+            var bitwiseBoard = new SudokuBoard<int>(board.BlockSideLength, bitValues, 0);
+
+            var legalValuesList = board.LegalValues.ToList();
+
+            for (int i = 0; i < board.Width; i++)
+            {
+                for (int j = 0; j < board.Width; j++)
+                {
+                    int valueIndex = legalValuesList.IndexOf(board[i, j]);
+
+                    if (valueIndex != -1)
+                        bitwiseBoard[i, j] = bitValues[valueIndex];
+                    else
+                        bitwiseBoard[i, j] = 0;
+                }
+            }
+
+            return bitwiseBoard;
+        }
+
+        /// <summary>
+        /// Converts a bitwise SudokuBoard back to a normal board.
+        /// </summary>
+        /// <typeparam name="T">The type of data at each square of the board.</typeparam>
+        /// <param name="bitwiseBoard">The bitwise board to convert.</param>
+        /// <param name="legalValuesList">The list of the legal values in the board</param>
+        /// <param name="emptyValue">The value for representing an empty square in the board.</param>
+        /// <returns>The converted board.</returns>
+        public static SudokuBoard<T> ConvertBitwiseBackToBoard<T>(SudokuBoard<int> bitwiseBoard, List<T> legalValuesList, T emptyValue)
+        {
+            var board = new SudokuBoard<T>(bitwiseBoard.BlockSideLength, legalValuesList, emptyValue);
+
+            for (int i = 0; i < board.Width; i++)
+            {
+                for (int j = 0; j < board.Width; j++)
+                {
+                    board[i, j] = legalValuesList[FirstActivatedBitPos(bitwiseBoard[i, j])];
+                }
+            }
+
+            return board;
+        }
+
+        /// <summary>
         /// Generates and returns a notes dictionary for the current board. <br/>
         /// A notes dictionary is a dictionary that contains all of the possible <br/>
         /// values each of the empty squares in the board can take.
@@ -51,10 +137,10 @@ namespace OmegaSudokuSolver
                         int bits = 0;
 
                         // Activate positions for all of the possible values
-                        for (int k = 0; k < board.LegalValues.Count - 1; k++)
+                        for (int k = 0; k < board.LegalValues.Count; k++)
                         {
                             bits <<= 1;
-                            bits &= 1;
+                            bits |= 1;
                         }
 
                         notes.Add(i * board.Width + j, bits);

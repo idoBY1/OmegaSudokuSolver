@@ -37,7 +37,6 @@ namespace OmegaSudokuSolver
         /// Represents a row/column size of an inner block of the board.</param>
         /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
         /// <param name="emptyValue">The value that represents an empty square.</param>
-        /// <exception cref="ArgumentException">throws an exception if emptyValue is illegal</exception>
         public SudokuBoard(int blockSideLength, IEnumerable<T> legalValues, T emptyValue)
         {
             _board = new T[blockSideLength * blockSideLength, blockSideLength * blockSideLength];
@@ -45,9 +44,6 @@ namespace OmegaSudokuSolver
             Width = BlockSideLength * blockSideLength;
 
             LegalValues = legalValues.ToFrozenSet();
-
-            if (!LegalValues.Contains(emptyValue))
-                throw new ArgumentException("emptyValue must be a legal value!");
 
             EmptyValue = emptyValue;
         }
@@ -61,7 +57,7 @@ namespace OmegaSudokuSolver
         /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
         /// <param name="emptyValue">The value that represents an empty square.</param>
         /// <exception cref="ArgumentException">throws an exception if the size of the 2 dimensional 
-        /// array is invalid or if emptyValue is illegal.</exception>
+        /// array is invalid.</exception>
         public SudokuBoard(T[,] values, IEnumerable<T> legalValues, T emptyValue)
         {
             if (values.GetLength(0) != values.GetLength(1))
@@ -74,9 +70,6 @@ namespace OmegaSudokuSolver
             Width = values.GetLength(0);
 
             LegalValues = legalValues.ToFrozenSet();
-
-            if (!LegalValues.Contains(emptyValue))
-                throw new ArgumentException("emptyValue must be a legal value!");
 
             EmptyValue = emptyValue;
         }

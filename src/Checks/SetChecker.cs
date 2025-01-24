@@ -48,7 +48,7 @@ namespace OmegaSudokuSolver
                         || rowsSets[i].Contains(board[i, j]))
                         return false;
 
-                    if (!board.LegalValues.Contains(board[i, j])) 
+                    if (!(board.LegalValues.Contains(board[i, j]) || board[i, j].Equals(board.EmptyValue))) 
                         return false;
 
                     if (!board[i, j].Equals(board.EmptyValue))
@@ -88,7 +88,7 @@ namespace OmegaSudokuSolver
                         || rowsSets[i].Contains(board[i, j]))
                         return false;
 
-                    if (!board.LegalValues.Contains(board[i, j]))
+                    if (!(board.LegalValues.Contains(board[i, j]) || board[i, j].Equals(board.EmptyValue)))
                         return false;
 
                     blockSets[i / 3, j / 3].Add(board[i, j]);

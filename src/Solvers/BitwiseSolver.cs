@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,21 @@ namespace OmegaSudokuSolver
 {
     public class BitwiseSolver<T> : ISolver<T>
     {
-        private static readonly IBoardChecker<T> checker = new SetChecker<T>();
+        private static readonly IBoardChecker<int> checker = new SetChecker<int>();
 
         public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
-            //Dictionary<int, HashSet<T>> notes = SetSolveUtils.GenerateBoardNotes(board);
+            Dictionary<int, int> notes = BitsSolveUtils.GenerateBoardNotes(board);
 
-            //return BitwiseBackTrack(new SudokuBoard<T>(board), notes);
+            var solved = BitwiseBackTrack(BitsSolveUtils.ConvertBoardToBitwise(board), notes);
 
-            throw new NotImplementedException(); // TODO implement solver
+            if (solved == null)
+                return null;
+
+            return BitsSolveUtils.ConvertBitwiseBackToBoard(solved, board.LegalValues.ToList(), board.EmptyValue);
         }
 
-        private SudokuBoard<T> BitwiseBackTrack(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private SudokuBoard<int> BitwiseBackTrack(SudokuBoard<int> board, Dictionary<int, int> notes)
         {
             bool updated = true;
 
@@ -32,7 +36,7 @@ namespace OmegaSudokuSolver
                 updated = ApplySingles(board, notes) || ObviousTuples(board, notes);
             }
 
-            int pos = SetSolveUtils.FindLeastNotesIndex(notes);
+            int pos = BitsSolveUtils.FindLeastNotesIndex(notes);
 
             if (checker.IsFull(board) || pos == -1)
             {
@@ -42,12 +46,19 @@ namespace OmegaSudokuSolver
                     return null;
             }
 
-            foreach (T val in notes[pos])
+            int possibilities = notes[pos];
+
+            for (int i = 0; (possibilities >> i) != 0; i++)
             {
                 notes.Remove(pos);
-                board.Set(pos, val);
 
-                var result = BitwiseBackTrack(new SudokuBoard<T>(board), SetSolveUtils.CopyNotes(notes));
+                // skip this value if it is not possible
+                if ((possibilities & (1 << i)) == 0)
+                    continue;
+
+                board.Set(pos, (possibilities & (1 << i)));
+
+                var result = BitwiseBackTrack(new SudokuBoard<int>(board), BitsSolveUtils.CopyNotes(notes));
 
                 if (result != null)
                     return result;
@@ -57,7 +68,7 @@ namespace OmegaSudokuSolver
             return null;
         }
 
-        private void ClearTrivialNotes(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private void ClearTrivialNotes(SudokuBoard<int> board, Dictionary<int, int> notes)
         {
             foreach (var note in notes)
             {
@@ -73,30 +84,30 @@ namespace OmegaSudokuSolver
                 for (int i = 0; i < board.Width; i++)
                 {
                     // Remove from block
-                    note.Value.Remove(board[blockRow * board.BlockSideLength + (i / board.BlockSideLength),
-                        blockColumn * board.BlockSideLength + (i % board.BlockSideLength)]);
+                    notes[note.Key] &= ~board[blockRow * board.BlockSideLength + (i / board.BlockSideLength),
+                        blockColumn * board.BlockSideLength + (i % board.BlockSideLength)];
 
                     // Remove from column
-                    note.Value.Remove(board[i, col]);
+                    notes[note.Key] &= ~board[i, col];
 
                     // Remove from row
-                    note.Value.Remove(board[row, i]);
+                    notes[note.Key] &= ~board[row, i];
                 }
             }
         }
 
-        private bool ApplySingles(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private bool ApplySingles(SudokuBoard<int> board, Dictionary<int, int> notes)
         {
             bool updated = false;
 
             foreach (var note in notes)
             {
-                if (note.Value.Count == 0)
+                if (note.Value == 0)
                     return false;
 
-                if (note.Value.Count == 1)
+                if (BitsSolveUtils.CountActivatedBits(note.Value) == 1)
                 {
-                    board.Set(note.Key, note.Value.ElementAt(0));
+                    board.Set(note.Key, note.Value);
                     updated = true;
                     notes.Remove(note.Key);
                 }
@@ -105,7 +116,7 @@ namespace OmegaSudokuSolver
             return updated;
         }
 
-        private bool ObviousTuples(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes)
+        private bool ObviousTuples(SudokuBoard<int> board, Dictionary<int, int> notes)
         {
             List<int> groupIndexes = new List<int>();
 
@@ -162,7 +173,7 @@ namespace OmegaSudokuSolver
             return updated;
         }
 
-        private bool ObviousTuplesInGroup(SudokuBoard<T> board, Dictionary<int, HashSet<T>> notes, List<int> group)
+        private bool ObviousTuplesInGroup(SudokuBoard<int> board, Dictionary<int, int> notes, List<int> group)
         {
             bool updated = false;
 
@@ -172,19 +183,16 @@ namespace OmegaSudokuSolver
 
                 foreach (HashSet<int> combination in combinations)
                 {
-                    var combinationValues = new HashSet<T>();
+                    int combinationValues = 0;
 
                     // Add all of the possible values of every square in this combination to the combinationValues set.
                     foreach (int index in combination)
                     {
-                        foreach (T value in notes[index])
-                        {
-                            combinationValues.Add(value);
-                        }
+                        combinationValues |= notes[index];
                     }
 
                     // Found an obvious tuple.
-                    if (combinationValues.Count <= combinationSize)
+                    if (BitsSolveUtils.CountActivatedBits(combinationValues) <= combinationSize)
                     {
                         foreach (int index in group)
                         {
@@ -193,14 +201,7 @@ namespace OmegaSudokuSolver
                             {
                                 // Remove the possibilities that were a part of the obvious tuple
                                 // (It is not possible for this square to have these values).
-                                foreach (T value in notes[index])
-                                {
-                                    if (combinationValues.Contains(value))
-                                    {
-                                        notes[index].Remove(value);
-                                        updated = true;
-                                    }
-                                }
+                                notes[index] &= ~combinationValues;
                             }
                         }
                     }
