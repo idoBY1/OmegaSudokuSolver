@@ -13,13 +13,21 @@ namespace OmegaSudokuSolver
     public interface IBoardChecker<T>
     {
         /// <summary>
-        /// Check if the board is legal. A board is illegal if it has an illegal object <br/>
+        /// Checks if the board is legal. A board is illegal if it has an illegal object <br/>
         /// or if it has at least two equal objects in the same row, column or inner <br/>
         /// block. 
         /// </summary>
         /// <param name="board">The board to check.</param>
         /// <returns>'true' if the board is legal and 'false' if it's not.</returns>
         public bool IsLegal(SudokuBoard<T> board);
+
+        /// <summary>
+        /// Checks if the board is legal and throws an exception if it's not. A board is illegal if it has an <br/> 
+        /// illegal object or if it has at least two equal objects in the same row, column or inner block.
+        /// </summary>
+        /// <param name="board">The board to check.</param>
+        /// <exception cref="IllegalBoardException">'board' is illegal.</exception>
+        public void AssertLegal(SudokuBoard<T> board);
 
         /// <summary>
         /// Check if the board is solved. A board is solved if it's legal <br/>

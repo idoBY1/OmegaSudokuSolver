@@ -11,9 +11,22 @@ namespace OmegaSudokuSolver
     /// </summary>
     public class ConsoleInteraction : IUserInteraction
     {
-        public void Print(string msg)
+        public ConsoleInteraction()
         {
-            Console.WriteLine(msg);
+            Console.CancelKeyPress += Console_CancelKeyPressHandler;
+        }
+
+        private void Console_CancelKeyPressHandler(object? sender, ConsoleCancelEventArgs e)
+        {
+            Console.WriteLine("Terminated program.");
+        }
+
+        public void Print(string msg, bool endWithNewLine = true)
+        {
+            if (endWithNewLine)
+                Console.WriteLine(msg);
+            else
+                Console.Write(msg);
         }
 
         public void PrintBoard<T>(SudokuBoard<T> board)
@@ -26,14 +39,16 @@ namespace OmegaSudokuSolver
             Console.WriteLine(board.ToString());
         }
 
-        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues)
+        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues, string requestMessage = ">>> ")
         {
+            Console.Write(requestMessage);
+
             if (emptySquareObject == null)
             {
                 throw new ArgumentNullException(nameof(emptySquareObject));
             }
 
-            if (typeof(T) == typeof(int))
+            if (typeof(T) == typeof(int)) // Read a board of integers
             {
                 // Create a new int Sudoku board
                 return (SudokuBoard<T>)Convert.ChangeType(
@@ -54,12 +69,13 @@ namespace OmegaSudokuSolver
         /// The final full board will be of size (blockSideLength^2 X blockSideLength^2).</param>
         /// <param name="legalValues">A Collection with all of the legal values a square can take.</param>
         /// <returns>An int SudokuBoard object</returns>
-        /// <exception cref="IOException">Throws this exception if the input is not long enough to populate the entire board</exception>
+        /// <exception cref="ReadBoardFailException">Throws this exception if there was a problem while reading a value and assigning it to the board.</exception>
         private SudokuBoard<int> ReadIntBoard(int emptySquareNumber, int blockSideLength, IEnumerable<int> legalValues)
         {
             int boardSideLength = blockSideLength * blockSideLength;
 
             var board = new SudokuBoard<int>(blockSideLength, legalValues, emptySquareNumber);
+            string strInput = "";
 
             for (int i = 0; i < boardSideLength; i++)
             {
@@ -67,12 +83,32 @@ namespace OmegaSudokuSolver
                 {
                     int currentInput = Console.Read();
 
-                    if (currentInput == -1)
-                        throw new IOException("Not enough characters to create a board");
+                    if ((char)currentInput == '\r' || (char)currentInput == '\n')
+                    {
+                        Console.ReadLine(); // Clear input buffer.
+                        throw new ReadBoardFailException($"Not enough characters to create a board. " +
+                            $"Received only {strInput.Length} characters out of {board.Width * board.Width}.", strInput);
+                    }
 
-                    board[i, j] = int.Parse(((char)currentInput).ToString());
+                    if (currentInput == -1)
+                        throw new ReadBoardFailException($"Not enough characters to create a board. " +
+                            $"Received only {strInput.Length} characters out of {board.Width * board.Width}.", strInput);
+
+                    strInput += (char)currentInput;
+
+                    try
+                    {
+                        board[i, j] = int.Parse(((char)currentInput).ToString());
+                    }
+                    catch (FormatException e)
+                    {
+                        Console.ReadLine(); // Clear input buffer.
+                        throw new ReadBoardFailException($"Invalid symbol '{(char)currentInput}'.", strInput);
+                    }
                 }
             }
+
+            Console.ReadLine(); // Clear input buffer.
 
             return board;
         }
