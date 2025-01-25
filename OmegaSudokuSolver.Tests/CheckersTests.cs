@@ -1,17 +1,19 @@
 ﻿using OmegaSudokuSolver;
 
-namespace SudokuSolverTests
+namespace OmegaSudokuSolver.Tests
 {
     [TestClass]
-    public class TestCheckers
+    public class CheckersTests
     {
         private List<SudokuBoard<int>> validBoards;
         private List<SudokuBoard<int>> invalidBoards;
+        private List<SudokuBoard<int>> solvedBoards;
 
-        public TestCheckers()
+        public CheckersTests()
         {
             validBoards = GetValidSudokuBoards();
             invalidBoards = GetInvalidSudokuBoards();
+            solvedBoards = GetSolvedSudokuBoards();
         }
 
         private List<SudokuBoard<int>> GetValidSudokuBoards()
@@ -61,6 +63,27 @@ namespace SudokuSolverTests
             return boards;
         }
 
+        private List<SudokuBoard<int>> GetSolvedSudokuBoards()
+        {
+            string[] boardStrings = {
+                "329816754457293861681457239148975326765342918932168475274681593596734182813529647",
+                "751394268369182754284576913876925341132468597495731682618253479527849136943617825",
+                "468952173291347586735816492579183264643529817812764935156478329924631758387295641",
+                "146389275278654319539217648713568924685492137924731586367145892852973461491826753",
+                "379514826658279413214836957196452738845763291723981564581327649932648175467195382",
+                "349681275876235491125479836682513947493867152517924368951742683264358719738196524"
+            };
+
+            var boards = new List<SudokuBoard<int>>();
+
+            for (int i = 0; i < boardStrings.Length; i++)
+            {
+                boards.Add(BoardUtils.CreateBoardFromString(boardStrings[i]));
+            }
+
+            return boards;
+        }
+
         [TestMethod]
         public void Checker_IsLegal_ValidInput()
         {
@@ -80,6 +103,83 @@ namespace SudokuSolverTests
             for (int i = 0; i < invalidBoards.Count; i++)
             {
                 Assert.IsFalse(checker.IsLegal(invalidBoards[i]));
+            }
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < validBoards.Count; i++)
+            {
+                checker.AssertLegal(validBoards[i]);
+            }
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_InvalidInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < invalidBoards.Count; i++)
+            {
+                Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[i]));
+            }
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_UnfilledInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < validBoards.Count; i++)
+            {
+                Assert.IsFalse(checker.IsFull(validBoards[i]));
+            }
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_FilledInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < solvedBoards.Count; i++)
+            {
+                Assert.IsTrue(checker.IsFull(solvedBoards[i]));
+            }
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < solvedBoards.Count; i++)
+            {
+                Assert.IsTrue(checker.IsSolved(solvedBoards[i]));
+            }
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_UnsolvedInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < validBoards.Count; i++)
+            {
+                Assert.IsFalse(checker.IsSolved(validBoards[i]));
+            }
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_InvalidInput()
+        {
+            var checker = new SetChecker<int>();
+
+            for (int i = 0; i < invalidBoards.Count; i++)
+            {
+                Assert.IsFalse(checker.IsSolved(invalidBoards[i]));
             }
         }
     }
