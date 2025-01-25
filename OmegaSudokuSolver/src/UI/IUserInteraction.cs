@@ -34,6 +34,17 @@ namespace OmegaSudokuSolver
         public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues, string requestMessage = ">>> ");
 
         /// <summary>
+        /// Reads a sudoku board from the user, using the input to determine the size of the board at runtime. <br/>
+        /// This function assumes a couple of things in order to work: The type of the board is assumed to be <br/>
+        /// 'char' and the empty value is assumed to be '0'. Also, the legal values of the board start from <br/>
+        /// '1' and continue to '2', '3', '4'... . All values after '9' will be represented according to the next <br/>
+        /// values in the ascii table.
+        /// </summary>
+        /// <param name="requestMessage">The message to print to the user as a request for input.</param>
+        /// <returns>A SudokuBoard object</returns>
+        //public SudokuBoard<char> ReadBoardAuto(string requestMessage = ">>> ");
+
+        /// <summary>
         /// Print the board to the user.
         /// </summary>
         /// <typeparam name="T">The type of data at each square of the board.</typeparam>
