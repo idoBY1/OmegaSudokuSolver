@@ -39,10 +39,8 @@ namespace OmegaSudokuSolver
             Console.WriteLine(board.ToString());
         }
 
-        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues, string requestMessage = ">>> ")
+        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues)
         {
-            Console.Write(requestMessage);
-
             if (emptySquareObject == null)
             {
                 throw new ArgumentNullException(nameof(emptySquareObject));
@@ -109,6 +107,41 @@ namespace OmegaSudokuSolver
             }
 
             Console.ReadLine(); // Clear input buffer.
+
+            return board;
+        }
+
+        public SudokuBoard<char> ReadBoardAuto()
+        {
+            string userInput = Console.ReadLine();
+
+            if (userInput == null || userInput.Equals(""))
+                throw new ReadBoardFailException("Empty input.", "");
+
+            int blockWidth = (int)Math.Sqrt((int)Math.Sqrt(userInput.Length));
+
+            int boardWidth = blockWidth * blockWidth;
+
+            var legalValues = new HashSet<char>();
+
+            foreach (int i in Enumerable.Range('1', boardWidth))
+            {
+                legalValues.Add((char)i);
+            }
+
+            var board = new SudokuBoard<char>(blockWidth, legalValues, '0');
+
+            for (int i = 0; i < boardWidth * boardWidth; i++)
+            {
+                if (userInput[i] == '0' || legalValues.Contains(userInput[i]))
+                {
+                    board.Set(i, userInput[i]);
+                }
+                else
+                {
+                    throw new ReadBoardFailException($"Invalid symbol '{userInput[i]}'", userInput);
+                }
+            }
 
             return board;
         }

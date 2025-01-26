@@ -31,7 +31,7 @@ namespace OmegaSudokuSolver
         /// <exception cref="ArgumentException">Throws this if the type is not supported</exception>
         /// <exception cref="ArgumentNullException">Throws this exception if receives a null 'emptySquareObject'</exception>
         /// <exception cref="ReadBoardFailException">Throws this exception if there was a problem while reading a value and assigning it to the board.</exception>
-        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues, string requestMessage = ">>> ");
+        public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues);
 
         /// <summary>
         /// Reads a sudoku board from the user, using the input to determine the size of the board at runtime. <br/>
@@ -42,7 +42,7 @@ namespace OmegaSudokuSolver
         /// </summary>
         /// <param name="requestMessage">The message to print to the user as a request for input.</param>
         /// <returns>A SudokuBoard object</returns>
-        //public SudokuBoard<char> ReadBoardAuto(string requestMessage = ">>> ");
+        public SudokuBoard<char> ReadBoardAuto();
 
         /// <summary>
         /// Print the board to the user.

@@ -11,28 +11,30 @@ namespace OmegaSudokuSolver
     {
         private static readonly string EXIT_STR = "q";
 
-        private IBoardChecker<int> _boardChecker;
-        private ISolver<int> _solver;
+        private IBoardChecker<char> _boardChecker;
+        private ISolver<char> _solver;
         private IUserInteraction _io;
 
         public Application()
         {
-            _boardChecker = new SetChecker<int>();
-            _solver = new BitwiseSolver<int>();
+            _boardChecker = new SetChecker<char>();
+            _solver = new BitwiseSolver<char>();
             _io = new ConsoleInteraction();
         }
 
         public void Run()
         {
-            SudokuBoard<int> board;
+            SudokuBoard<char> board;
 
             _io.Print($"Enter boards to solve: (Enter '{EXIT_STR}' to quit)");
 
             while (true)
             {
+                _io.Print(">>> ", false);
+
                 try
                 {
-                    board = _io.ReadBoard(0, 3, Enumerable.Range(1, 9));
+                    board = _io.ReadBoardAuto();
                 }
                 catch (ReadBoardFailException e)
                 {
