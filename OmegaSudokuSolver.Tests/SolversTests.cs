@@ -169,16 +169,16 @@ namespace OmegaSudokuSolver.Tests
         //    var checker = new SetChecker<int>();
         //    var solver = new BasicBacktrackingSolver<int>();
 
+        //    Stopwatch sw = Stopwatch.StartNew();
+
         //    for (int i = 0; i < validBoards.Count; i++)
         //    {
-        //        Stopwatch sw = Stopwatch.StartNew();
-
         //        solver.Solve(validBoards[i]);
-
-        //        sw.Stop();
-
-        //        Assert.IsTrue(sw.ElapsedMilliseconds < 1000);
         //    }
+
+        //    sw.Stop();
+
+        //    Assert.IsTrue(sw.ElapsedMilliseconds / validBoards.Count < 1000);
         //}
 
         //[TestMethod]
@@ -186,16 +186,16 @@ namespace OmegaSudokuSolver.Tests
         //{
         //    var solver = new BasicBacktrackingSolver<int>();
 
+        //    Stopwatch sw = Stopwatch.StartNew();
+
         //    for (int i = 0; i < unsolvableBoards.Count; i++)
         //    {
-        //        Stopwatch sw = Stopwatch.StartNew();
-
         //        solver.Solve(unsolvableBoards[i]);
-
-        //        sw.Stop();
-
-        //        Assert.IsTrue(sw.ElapsedMilliseconds < 1000);
         //    }
+
+        //    sw.Stop();
+
+        //    Assert.IsTrue(sw.ElapsedMilliseconds / unsolvableBoards.Count < 1000);
         //}
 
         // RuleBasedSolver
@@ -229,16 +229,16 @@ namespace OmegaSudokuSolver.Tests
             var checker = new SetChecker<int>();
             var solver = new RuleBasedSolver<int>();
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             for (int i = 0; i < validBoards.Count; i++)
-            {
-                Stopwatch sw = Stopwatch.StartNew();
-
-                solver.Solve(validBoards[i]);
-
-                sw.Stop();
-
-                Assert.IsTrue(sw.ElapsedMilliseconds < 1000);
+            {                
+                solver.Solve(validBoards[i]);   
             }
+
+            sw.Stop();
+
+            Assert.IsTrue(sw.ElapsedMilliseconds / validBoards.Count < 500);
         }
 
         [TestMethod]
@@ -246,16 +246,16 @@ namespace OmegaSudokuSolver.Tests
         {
             var solver = new RuleBasedSolver<int>();
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             for (int i = 0; i < unsolvableBoards.Count; i++)
             {
-                Stopwatch sw = Stopwatch.StartNew();
-
                 solver.Solve(unsolvableBoards[i]);
-
-                sw.Stop();
-
-                Assert.IsTrue(sw.ElapsedMilliseconds < 1000);
             }
+
+            sw.Stop();
+
+            Assert.IsTrue(sw.ElapsedMilliseconds / unsolvableBoards.Count < 500);
         }
 
         // BitwiseSolver
@@ -289,16 +289,16 @@ namespace OmegaSudokuSolver.Tests
             var checker = new SetChecker<int>();
             var solver = new BitwiseSolver<int>();
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             for (int i = 0; i < validBoards.Count; i++)
             {
-                Stopwatch sw = Stopwatch.StartNew();
-
                 solver.Solve(validBoards[i]);
-
-                sw.Stop();
-
-                Assert.IsTrue(sw.ElapsedMilliseconds < 1000);
             }
+
+            sw.Stop();
+
+            Assert.IsTrue(sw.ElapsedMilliseconds / validBoards.Count < 500);
         }
 
         [TestMethod]
@@ -306,16 +306,16 @@ namespace OmegaSudokuSolver.Tests
         {
             var solver = new BitwiseSolver<int>();
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             for (int i = 0; i < unsolvableBoards.Count; i++)
             {
-                Stopwatch sw = Stopwatch.StartNew();
-
                 solver.Solve(unsolvableBoards[i]);
-
-                sw.Stop();
-
-                Assert.IsTrue(sw.ElapsedMilliseconds < 1000);
             }
+
+            sw.Stop();
+
+            Assert.IsTrue(sw.ElapsedMilliseconds / unsolvableBoards.Count < 500);
         }
     }
 }
