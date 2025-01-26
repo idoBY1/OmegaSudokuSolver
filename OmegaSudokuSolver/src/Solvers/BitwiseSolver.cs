@@ -231,8 +231,8 @@ namespace OmegaSudokuSolver
         {
             bool updated = false;
 
-            // For every combination size.
-            for (int combinationSize = 2; combinationSize < group.Count; combinationSize++)
+            // Apply naked tuples.
+            for (int combinationSize = 2; combinationSize < Math.Min(group.Count / 2, 8); combinationSize++)
             {
                 HashSet<HashSet<int>> combinations = SetSolveUtils.GetCombinations(group, combinationSize);
 
@@ -250,6 +250,49 @@ namespace OmegaSudokuSolver
 
                     // Found an obvious tuple.
                     if (BitsSolveUtils.CountActivatedBits(combinationValues) <= combinationSize)
+                    {
+                        foreach (int index in group)
+                        {
+                            // If the index was not a part of the combination.
+                            if (!combination.Contains(index))
+                            {
+                                // Remove the possibilities that were a part of the obvious tuple
+                                // (It is not possible for this square to have these values).
+                                notes[index] &= ~combinationValues;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Apply hidden tuples.
+            for (int missingAmount = 1; missingAmount < Math.Min(group.Count / 2, 8); missingAmount++)
+            {
+                // Choose the values to exclude from the combination
+                HashSet<HashSet<int>> missingCombinations = SetSolveUtils.GetCombinations(group, missingAmount);
+
+                // Check every combination.
+                foreach (HashSet<int> mCombination in missingCombinations)
+                {
+                    var combination = group.ToHashSet();
+
+                    // Remove to squares that are supposed to be missing from this group.
+                    foreach (int index in mCombination)
+                    {
+                        combination.Remove(index);
+                    }
+
+                    // Stores all of the possibilities of every square in the combination.
+                    int combinationValues = 0;
+
+                    // Add all of the possible values of every square in this combination to the combinationValues set.
+                    foreach (int index in combination)
+                    {
+                        combinationValues |= notes[index];
+                    }
+
+                    // Found an obvious tuple.
+                    if (BitsSolveUtils.CountActivatedBits(combinationValues) <= combination.Count)
                     {
                         foreach (int index in group)
                         {
