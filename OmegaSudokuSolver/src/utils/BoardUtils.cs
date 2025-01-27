@@ -16,7 +16,7 @@ namespace OmegaSudokuSolver
 
             for (int i = 0; i < boardString.Length; i++)
             {
-                board.Set(i, int.Parse(boardString[i].ToString()));
+                board.Set(i, boardString[i] - '0');
             }
 
             return board;
