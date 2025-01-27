@@ -13,42 +13,48 @@ namespace OmegaSudokuSolver
 
         private IBoardChecker<char> _boardChecker;
         private ISolver<char> _solver;
-        private IUserInteraction _io;
+        private IUserInteraction _consoleIO;
 
         public Application()
         {
             _boardChecker = new SetChecker<char>();
             _solver = new BitwiseSolver<char>();
-            _io = new ConsoleInteraction();
+            _consoleIO = new ConsoleInteraction();
         }
 
         public void Run()
         {
             SudokuBoard<char> board;
 
-            _io.Print($"Enter boards to solve: (Enter '{EXIT_STR}' to quit)");
+            _consoleIO.Print($"Enter boards to solve: (Enter '{EXIT_STR}' to quit)");
 
             while (true)
             {
-                _io.Print(">>> ", false);
+                _consoleIO.Print(">>> ", false);
 
                 try
                 {
-                    board = _io.ReadBoardAuto();
+                    board = _consoleIO.ReadBoardAuto();
                 }
                 catch (ReadBoardFailException e)
                 {
                     if (e.FailedInput.Equals(EXIT_STR))
                         break;
 
-                    _io.Print($"Failed to read board from input: \"{e.FailedInput}\".");
-                    _io.Print(e.Message);
+                    _consoleIO.Print($"Failed to read board from input: \"{e.FailedInput}\".");
+                    _consoleIO.Print(e.Message);
 
                     continue;
                 }
 
-                _io.Print("The board you entered: \n");
-                _io.PrintBoard(board);
+                if (board.BlockSideLength > 5)
+                {
+                    _consoleIO.Print("Please enter a board with a size up to 25 X 25");
+                    continue;
+                }
+
+                _consoleIO.Print("The board you entered: \n");
+                _consoleIO.PrintBoard(board);
 
                 try
                 {
@@ -56,13 +62,13 @@ namespace OmegaSudokuSolver
                 }
                 catch (IllegalBoardException e)
                 {
-                    _io.Print($"Illegal board. Found a problem at row {e.FailedRow} column {e.FailedColumn}.");
-                    _io.Print(e.Message);
+                    _consoleIO.Print($"Illegal board. Found a problem at row {e.FailedRow} column {e.FailedColumn}.");
+                    _consoleIO.Print(e.Message);
 
                     continue;
                 }
 
-                _io.Print("Solving board... ", false);
+                _consoleIO.Print("Solving board... ", false);
 
                 Stopwatch sw = Stopwatch.StartNew();
 
@@ -70,24 +76,24 @@ namespace OmegaSudokuSolver
 
                 sw.Stop();
 
-                _io.Print($"Finished.\nElapsed time: {sw.Elapsed.TotalSeconds} seconds.");
+                _consoleIO.Print($"Finished.\nElapsed time: {sw.Elapsed.TotalSeconds} seconds.");
 
                 if (solvedBoard != null)
                 {
-                    _io.Print("Solved board: \n");
-                    _io.PrintBoard(solvedBoard);
+                    _consoleIO.Print("Solved board: \n");
+                    _consoleIO.PrintBoard(solvedBoard);
 
-                    _io.Print($"Board as a character sequence: ", false);
-                    _io.PrintBoardString(solvedBoard);
-                    _io.Print("");
+                    _consoleIO.Print($"Board as a character sequence: ", false);
+                    _consoleIO.PrintBoardString(solvedBoard);
+                    _consoleIO.Print("");
                 }
                 else
                 {
-                    _io.Print("Unsolvable board.");
+                    _consoleIO.Print("Unsolvable board.");
                 }
             }
 
-            _io.Print("Exited program.");
+            _consoleIO.Print("Exited program.");
         }
     }
 }
