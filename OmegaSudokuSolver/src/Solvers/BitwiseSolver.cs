@@ -301,6 +301,11 @@ namespace OmegaSudokuSolver
             return updated;
         }
 
+        /// <summary>
+        /// Generates groups of indexes in the board for every block, row and column.
+        /// </summary>
+        /// <param name="board">The board to generate for.</param>
+        /// <returns>A list containing sets of indexes in the board.</returns>
         private List<FrozenSet<int>> GenerateGroups(SudokuBoard<T> board)
         {
             var groups = new List<FrozenSet<int>>();
@@ -362,6 +367,12 @@ namespace OmegaSudokuSolver
             return groups;
         }
 
+        /// <summary>
+        /// Returns all of the combinations of k values from 0 to n.
+        /// </summary>
+        /// <param name="n">Number of possible values.</param>
+        /// <param name="k">Number of elements in a combination</param>
+        /// <returns>A Set containing the generated combinations as sets.</returns>
         private HashSet<HashSet<int>> StoreCombinations(int n, int k)
         {
             return BitsSolveUtils.GetCombinations(Enumerable.Range(0, n), k);
