@@ -15,6 +15,8 @@ namespace OmegaSudokuSolver
 
         private Dictionary<Tuple<int, int>, HashSet<HashSet<int>>> combinationsList;
 
+        private static readonly int MAX_OBVIOUS_TUPLES_DEPTH = 2;
+
         public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
             Dictionary<int, int> notes = BitsSolveUtils.GenerateBoardNotes(board);
@@ -193,7 +195,7 @@ namespace OmegaSudokuSolver
             }
 
             // Apply naked tuples.
-            for (int combinationSize = 2; combinationSize < Math.Min(group.Count() / 2, 3); combinationSize++)
+            for (int combinationSize = 2; combinationSize <= Math.Min(group.Count() / 2, MAX_OBVIOUS_TUPLES_DEPTH); combinationSize++)
             {
                 HashSet<HashSet<int>> indexCombinations;
 
@@ -244,7 +246,7 @@ namespace OmegaSudokuSolver
             }
 
             // Apply hidden tuples.
-            for (int missingAmount = 1; missingAmount < Math.Min(group.Count() / 2, 3); missingAmount++)
+            for (int missingAmount = 1; missingAmount <= Math.Min(group.Count() / 2, MAX_OBVIOUS_TUPLES_DEPTH); missingAmount++)
             {
                 // Choose the values to exclude from the combination
                 HashSet<HashSet<int>> missingCombinations;
