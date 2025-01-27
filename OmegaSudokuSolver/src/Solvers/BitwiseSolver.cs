@@ -11,9 +11,17 @@ namespace OmegaSudokuSolver
     {
         private static readonly IBoardChecker<int> checker = new SetChecker<int>();
 
+        private List<FrozenSet<int>> boardGroups;
+
+        private Dictionary<Tuple<int, int>, HashSet<HashSet<int>>> combinationsList;
+
         public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
             Dictionary<int, int> notes = BitsSolveUtils.GenerateBoardNotes(board);
+
+            boardGroups = GenerateGroups(board);
+
+            combinationsList = new Dictionary<Tuple<int, int>, HashSet<HashSet<int>>>(); // StoreCombinations(board.Width);
 
             var solved = BitwiseBackTrack(BitsSolveUtils.ConvertBoardToBitwise(board), notes);
 
@@ -149,66 +157,11 @@ namespace OmegaSudokuSolver
         /// <returns>'true' if the function changed the notes and 'false' if it didn't.</returns>
         private bool ObviousTuples(SudokuBoard<int> board, Dictionary<int, int> notes)
         {
-            // A list to store the positions of squares in the current group.
-            List<int> groupIndexes = new List<int>();
-
             bool updated = false;
 
-            // Perform on blocks
-            for (int i = 0; i < board.Width; i++)
+            for (int i = 0; i < boardGroups.Count; i++)
             {
-                // Reset groupIndexes for the next group.
-                groupIndexes.Clear();
-
-                int blockRow = i / board.BlockSideLength;
-                int blockColumn = i % board.BlockSideLength;
-
-                // Add all positions in the current block.
-                for (int j = 0; j < board.Width; j++)
-                {
-                    int row = blockRow * board.BlockSideLength + (j / board.BlockSideLength);
-                    int col = blockColumn * board.BlockSideLength + (j % board.BlockSideLength);
-
-                    if (board[row, col].Equals(board.EmptyValue))
-                        groupIndexes.Add(row * board.Width + col);
-                }
-
-                // Apply the rule on this group.
-                updated = updated || ObviousTuplesInGroup(board, notes, groupIndexes);
-            }
-
-            // Perform on rows
-            for (int i = 0; i < board.Width; i++)
-            {
-                // Reset groupIndexes for the next group.
-                groupIndexes.Clear();
-
-                // Add all positions in the current row.
-                for (int j = 0; j < board.Width; j++)
-                {
-                    if (board[i, j].Equals(board.EmptyValue))
-                        groupIndexes.Add(i * board.Width + j);
-                }
-
-                // Apply the rule on this group.
-                updated = updated || ObviousTuplesInGroup(board, notes, groupIndexes);
-            }
-
-            // Perform on columns
-            for (int i = 0; i < board.Width; i++)
-            {
-                // Reset groupIndexes for the next group.
-                groupIndexes.Clear();
-
-                // Add all positions in the current column.
-                for (int j = 0; j < board.Width; j++)
-                {
-                    if (board[j, i].Equals(board.EmptyValue))
-                        groupIndexes.Add(j * board.Width + i);
-                }
-
-                // Apply the rule on this group.
-                updated = updated || ObviousTuplesInGroup(board, notes, groupIndexes);
+                updated |= ObviousTuplesInGroup(board, notes, boardGroups[i]);
             }
 
             return updated;
@@ -227,18 +180,43 @@ namespace OmegaSudokuSolver
         /// <param name="notes">The notes to change.</param>
         /// <param name="group">The list of the possitions of every square in the group that has not already been filled.</param>
         /// <returns>'true' if the function changed the notes and 'false' if it didn't.</returns>
-        private bool ObviousTuplesInGroup(SudokuBoard<int> board, Dictionary<int, int> notes, List<int> group)
+        private bool ObviousTuplesInGroup(SudokuBoard<int> board, Dictionary<int, int> notes, IEnumerable<int> groupIndexes)
         {
             bool updated = false;
 
-            // Apply naked tuples.
-            for (int combinationSize = 2; combinationSize < Math.Min(group.Count / 2, 3); combinationSize++)
+            HashSet<int> group = groupIndexes.ToHashSet();
+
+            foreach (var item in group)
             {
-                HashSet<HashSet<int>> combinations = SetSolveUtils.GetCombinations(group, combinationSize);
+                if (!notes.ContainsKey(item))
+                    group.Remove(item);
+            }
+
+            // Apply naked tuples.
+            for (int combinationSize = 2; combinationSize < Math.Min(group.Count() / 2, 3); combinationSize++)
+            {
+                HashSet<HashSet<int>> indexCombinations;
+
+                var combinationKey = new Tuple<int, int>(group.Count, combinationSize);
+
+                if (combinationsList.ContainsKey(combinationKey))
+                    indexCombinations = combinationsList[combinationKey];
+                else
+                {
+                    indexCombinations = StoreCombinations(combinationKey.Item1, combinationKey.Item2);
+                    combinationsList.Add(combinationKey, indexCombinations);
+                }
 
                 // Check every combination.
-                foreach (HashSet<int> combination in combinations)
+                foreach (HashSet<int> icombination in indexCombinations)
                 {
+                    var combination = new HashSet<int>();
+
+                    foreach (int index in icombination)
+                    {
+                        combination.Add(group.ElementAt(index));
+                    }
+
                     // Stores all of the possibilities of every square in the combination.
                     int combinationValues = 0;
 
@@ -266,10 +244,20 @@ namespace OmegaSudokuSolver
             }
 
             // Apply hidden tuples.
-            for (int missingAmount = 1; missingAmount < Math.Min(group.Count / 2, 3); missingAmount++)
+            for (int missingAmount = 1; missingAmount < Math.Min(group.Count() / 2, 3); missingAmount++)
             {
                 // Choose the values to exclude from the combination
-                HashSet<HashSet<int>> missingCombinations = SetSolveUtils.GetCombinations(group, missingAmount);
+                HashSet<HashSet<int>> missingCombinations;
+
+                var combinationKey = new Tuple<int, int>(group.Count, missingAmount);
+
+                if (combinationsList.ContainsKey(combinationKey))
+                    missingCombinations = combinationsList[combinationKey];
+                else
+                {
+                    missingCombinations = StoreCombinations(combinationKey.Item1, combinationKey.Item2);
+                    combinationsList.Add(combinationKey, missingCombinations);
+                }
 
                 // Check every combination.
                 foreach (HashSet<int> mCombination in missingCombinations)
@@ -279,7 +267,7 @@ namespace OmegaSudokuSolver
                     // Remove to squares that are supposed to be missing from this group.
                     foreach (int index in mCombination)
                     {
-                        combination.Remove(index);
+                        combination.Remove(group.ElementAt(index));
                     }
 
                     // Stores all of the possibilities of every square in the combination.
@@ -309,6 +297,72 @@ namespace OmegaSudokuSolver
             }
 
             return updated;
+        }
+
+        private List<FrozenSet<int>> GenerateGroups(SudokuBoard<T> board)
+        {
+            var groups = new List<FrozenSet<int>>();
+
+            // A list to store the positions of squares in the current group.
+            var groupIndexes = new HashSet<int>();
+
+            // Generate blocks.
+            for (int i = 0; i < board.Width; i++)
+            {
+                // Reset groupIndexes for the next group.
+                groupIndexes.Clear();
+
+                int blockRow = i / board.BlockSideLength;
+                int blockColumn = i % board.BlockSideLength;
+
+                // Add all positions in the current block.
+                for (int j = 0; j < board.Width; j++)
+                {
+                    int row = blockRow * board.BlockSideLength + (j / board.BlockSideLength);
+                    int col = blockColumn * board.BlockSideLength + (j % board.BlockSideLength);
+
+                    groupIndexes.Add(row * board.Width + col);
+                }
+
+                groups.Add(groupIndexes.ToFrozenSet());
+            }
+
+            // Generate rows.
+            for (int i = 0; i < board.Width; i++)
+            {
+                // Reset groupIndexes for the next group.
+                groupIndexes.Clear();
+
+                // Add all positions in the current row.
+                for (int j = 0; j < board.Width; j++)
+                {
+                    groupIndexes.Add(i * board.Width + j);
+                }
+
+                groups.Add(groupIndexes.ToFrozenSet());
+            }
+
+            // Generate columns.
+            for (int i = 0; i < board.Width; i++)
+            {
+                // Reset groupIndexes for the next group.
+                groupIndexes.Clear();
+
+                // Add all positions in the current column.
+                for (int j = 0; j < board.Width; j++)
+                {
+                    groupIndexes.Add(j * board.Width + i);
+                }
+
+                groups.Add(groupIndexes.ToFrozenSet());
+            }
+
+            return groups;
+        }
+
+        private HashSet<HashSet<int>> StoreCombinations(int n, int k)
+        {
+            return BitsSolveUtils.GetCombinations(Enumerable.Range(0, n), k);
         }
     }
 }
