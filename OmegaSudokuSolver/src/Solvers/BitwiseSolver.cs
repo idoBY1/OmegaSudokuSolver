@@ -232,7 +232,7 @@ namespace OmegaSudokuSolver
             bool updated = false;
 
             // Apply naked tuples.
-            for (int combinationSize = 2; combinationSize < Math.Min(group.Count / 2, 8); combinationSize++)
+            for (int combinationSize = 2; combinationSize < Math.Min(group.Count / 2, 3); combinationSize++)
             {
                 HashSet<HashSet<int>> combinations = SetSolveUtils.GetCombinations(group, combinationSize);
 
@@ -266,7 +266,7 @@ namespace OmegaSudokuSolver
             }
 
             // Apply hidden tuples.
-            for (int missingAmount = 1; missingAmount < Math.Min(group.Count / 2, 8); missingAmount++)
+            for (int missingAmount = 1; missingAmount < Math.Min(group.Count / 2, 3); missingAmount++)
             {
                 // Choose the values to exclude from the combination
                 HashSet<HashSet<int>> missingCombinations = SetSolveUtils.GetCombinations(group, missingAmount);
