@@ -117,7 +117,7 @@ namespace OmegaSudokuSolver
 
         private void FileInOut()
         {
-            _mainIO.Print("\nPlease enter the input file name: ", false);
+            _mainIO.Print("\nPlease enter the input file name. \n>>> ", false);
 
             string inputFilePath = _mainIO.Read();
 
@@ -127,12 +127,16 @@ namespace OmegaSudokuSolver
                 return;
             }
 
-            _mainIO.Print($"Please enter the output file name (for the default name '{DEFAULT_OUTPUT_FILE_NAME}' leave this field empty): ", false);
+            _mainIO.Print($"Reading from '{inputFilePath}'.");
+
+            _mainIO.Print($"\nPlease enter the output file name. (for the default name '{DEFAULT_OUTPUT_FILE_NAME}' leave this field empty)\n>>> ", false);
 
             string outputFilePath = _mainIO.Read();
 
             if (outputFilePath == null || outputFilePath.Length == 0) 
                 outputFilePath = DEFAULT_OUTPUT_FILE_NAME;
+
+            _mainIO.Print($"Writing to '{outputFilePath}'.\n");
 
             var fileIO = new FileInteraction(inputFilePath, outputFilePath);
             fileIO.ClearOutputFile();
