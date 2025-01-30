@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// A basic recursive sudoku solver. The solver guesses a value for a square and checks if the guess leads <br/>
+    /// to a solved board. If it doesn't, the solver tries another value for that square and checks again until <br/>
+    /// it succeeds or runs out of options. This solver is slower than both RuleBasedSolver and BitwiseSolver.
+    /// </summary>
+    /// <typeparam name="T">The type of data at each square of the board.</typeparam>
     public class BasicBacktrackingSolver<T> : ISolver<T>
     {
         public SudokuBoard<T> Solve(SudokuBoard<T> board)

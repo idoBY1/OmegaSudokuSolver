@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// This solver implements rules to rule out impossible options before trying them using recursion. <br/>
+    /// The solver keeps track of the potential values for each square by using a dictionary of sets of values <br/>
+    /// and at each iteration it rules out impossible options based on rules (like naked singles or hidden <br/>
+    /// pairs) and then tries to solve the remaining squares by guessing a value for the square with the <br/>
+    /// least options left. This solver is slower than Bitwise solver.
+    /// </summary>
+    /// <typeparam name="T">The type of data at each square of the board.</typeparam>
     public class RuleBasedSolver<T> : ISolver<T>
     {
         private static readonly IBoardChecker<T> checker = new SetChecker<T>();
