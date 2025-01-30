@@ -60,8 +60,17 @@ namespace OmegaSudokuSolver
         /// </summary>
         public void SkipWhiteSpace()
         {
-            while (Char.IsWhiteSpace(_input[_inputIndex]))
+            while (_inputIndex < _input.Length && Char.IsWhiteSpace(_input[_inputIndex]))
                 _inputIndex++;
+        }
+
+        /// <summary>
+        /// Checks if finished reading the file.
+        /// </summary>
+        /// <returns>'true' if finished reading and 'false' if not.</returns>
+        public bool IsFinished()
+        {
+            return _inputIndex >= _input.Length;
         }
 
         public void Print(string msg, bool endWithNewLine = true)
@@ -77,6 +86,11 @@ namespace OmegaSudokuSolver
             {
                 throw new IOException("Failed to append to file.");
             }
+        }
+
+        public string Read()
+        {
+            return _input;
         }
 
         public void PrintBoard<T>(SudokuBoard<T> board)
@@ -95,12 +109,21 @@ namespace OmegaSudokuSolver
         {
             try
             {
-                File.AppendAllText(_outputFileName, board.ToString() + "\n");
+                File.AppendAllText(_outputFileName, board.ToString());
             }
             catch
             {
                 throw new IOException("Failed to append to file.");
             }
+        }
+
+        /// <summary>
+        /// Deletes all of the content of the output file if already exists. <br/>
+        /// If the file doesn't exist, creates a new empty file.
+        /// </summary>
+        public void ClearOutputFile()
+        {
+            File.WriteAllText(_outputFileName, "");
         }
 
         public SudokuBoard<T> ReadBoard<T>(T emptySquareObject, int blockSideLength, IEnumerable<T> legalValues)
@@ -153,7 +176,6 @@ namespace OmegaSudokuSolver
 
                     if (currentInput == '\r' || currentInput == '\n')
                     {
-                        Console.ReadLine(); // Clear input buffer.
                         throw new ReadBoardFailException($"Not enough characters to create a board. " +
                             $"Received only {strInput.Length} characters out of {board.Width * board.Width}.", strInput);
                     }
@@ -166,7 +188,6 @@ namespace OmegaSudokuSolver
                     }
                     catch (FormatException e)
                     {
-                        Console.ReadLine(); // Clear input buffer.
                         throw new ReadBoardFailException($"Invalid symbol '{currentInput}'.", strInput);
                     }
                 }
@@ -179,7 +200,7 @@ namespace OmegaSudokuSolver
         {
             var userInput = "";
 
-            while (!Char.IsWhiteSpace(_input[_inputIndex]) && _inputIndex < _input.Length)
+            while (_inputIndex < _input.Length && (!Char.IsWhiteSpace(_input[_inputIndex])))
             { 
                 userInput += _input[_inputIndex++];
             }

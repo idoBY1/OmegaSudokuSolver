@@ -145,5 +145,10 @@ namespace OmegaSudokuSolver
 
             return board;
         }
+
+        public string? Read()
+        {
+            return Console.ReadLine();
+        }
     }
 }

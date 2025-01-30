@@ -19,6 +19,12 @@ namespace OmegaSudokuSolver
         public void Print(string msg, bool endWithNewLine = true);
 
         /// <summary>
+        /// Gets a message from the user.
+        /// </summary>
+        /// <returns>The message as a string.</returns>
+        public string? Read();
+
+        /// <summary>
         /// Reads a Sudoku board from the user.
         /// </summary>
         /// <typeparam name="T">The type of data at each square of the board.</typeparam>
