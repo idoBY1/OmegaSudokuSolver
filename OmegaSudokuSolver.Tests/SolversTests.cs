@@ -17,6 +17,10 @@ namespace OmegaSudokuSolver.Tests
             checker = new SetChecker<char>();
         }
 
+        /// <summary>
+        /// Creates a list of valid boards for the tests.
+        /// </summary>
+        /// <returns>The list created.</returns>
         private List<SudokuBoard<char>> GetValidSudokuBoards()
         {
             string[] boardStrings = {
@@ -79,6 +83,10 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
+        /// <summary>
+        /// Creates a list of unsolvable boards for the tests.
+        /// </summary>
+        /// <returns>The list created.</returns>
         private List<SudokuBoard<char>> GetUnsolvableSudokuBoards()
         {
             string[] boardStrings = {

@@ -3,6 +3,7 @@ namespace OmegaSudokuSolver.Tests;
 [TestClass]
 public class FileInteractionTests
 {
+    // This is the path to the input files of the tests.
     private static readonly string TEST_INPUTS_FOLDER = "../../../inputFiles/";
 
     [TestMethod]

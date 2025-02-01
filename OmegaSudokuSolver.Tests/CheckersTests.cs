@@ -16,6 +16,10 @@ namespace OmegaSudokuSolver.Tests
             solvedBoards = GetSolvedSudokuBoards();
         }
 
+        /// <summary>
+        /// Creates a list of valid boards for the tests.
+        /// </summary>
+        /// <returns>The list created.</returns>
         private List<SudokuBoard<char>> GetValidSudokuBoards()
         {
             string[] boardStrings = {
@@ -42,6 +46,10 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
+        /// <summary>
+        /// Creates a list of invalid boards for the tests.
+        /// </summary>
+        /// <returns>The list created.</returns>
         private List<SudokuBoard<char>> GetInvalidSudokuBoards()
         {
             string[] boardStrings = {
@@ -63,6 +71,10 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
+        /// <summary>
+        /// Creates a list of solved boards for the tests.
+        /// </summary>
+        /// <returns>The list created.</returns>
         private List<SudokuBoard<char>> GetSolvedSudokuBoards()
         {
             string[] boardStrings = {
