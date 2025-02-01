@@ -11,15 +11,22 @@ namespace OmegaSudokuSolver
     /// </summary>
     public class BoardUtils
     {
-        public static SudokuBoard<int> CreateBoardFromString(string boardString)
+        public static SudokuBoard<char> CreateBoardFromString(string boardString)
         {
             int blockLength = (int)Math.Sqrt(Math.Sqrt(boardString.Length));
 
-            var board = new SudokuBoard<int>(blockLength, Enumerable.Range(1, blockLength * blockLength), 0);
+            var legalValues = new HashSet<char>();
+
+            foreach (int i in Enumerable.Range('1', blockLength * blockLength))
+            {
+                legalValues.Add((char)i);
+            }
+
+            var board = new SudokuBoard<char>(blockLength, legalValues, '0');
 
             for (int i = 0; i < board.Width * board.Width; i++)
             {
-                board.Set(i, boardString[i] - '0');
+                board.Set(i, boardString[i]);
             }
 
             return board;

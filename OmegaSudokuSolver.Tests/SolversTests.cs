@@ -6,8 +6,8 @@ namespace OmegaSudokuSolver.Tests
     [TestClass]
     public class SolversTests
     {
-        private List<SudokuBoard<int>> validBoards;
-        private List<SudokuBoard<int>> unsolvableBoards;
+        private List<SudokuBoard<char>> validBoards;
+        private List<SudokuBoard<char>> unsolvableBoards;
 
         public SolversTests()
         {
@@ -15,7 +15,7 @@ namespace OmegaSudokuSolver.Tests
             unsolvableBoards = GetUnsolvableSudokuBoards();
         }
 
-        private List<SudokuBoard<int>> GetValidSudokuBoards()
+        private List<SudokuBoard<char>> GetValidSudokuBoards()
         {
             string[] boardStrings = {
                 "974236158638591742125487936316754289742918563589362417867125394253649871491873625",
@@ -126,7 +126,7 @@ namespace OmegaSudokuSolver.Tests
                 "0000000000000000" // 4 x 4
             };
 
-            var boards = new List<SudokuBoard<int>>();
+            var boards = new List<SudokuBoard<char>>();
 
             for (int i = 0; i < boardStrings.Length; i++)
             {
@@ -136,7 +136,7 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
-        private List<SudokuBoard<int>> GetUnsolvableSudokuBoards()
+        private List<SudokuBoard<char>> GetUnsolvableSudokuBoards()
         {
             string[] boardStrings = {
                 "000005080000601043000000000010500000000106000300000005530000061000000004000000000",
@@ -147,7 +147,7 @@ namespace OmegaSudokuSolver.Tests
                 "900100004014030800003000090000708001800003000000000030021000070009040500500016003"
             };
 
-            var boards = new List<SudokuBoard<int>>();
+            var boards = new List<SudokuBoard<char>>();
 
             for (int i = 0; i < boardStrings.Length; i++)
             {
@@ -188,8 +188,8 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void RuleBasedSolver_Solve_ValidInput()
         {
-            var checker = new SetChecker<int>();
-            var solver = new RuleBasedSolver<int>();
+            var checker = new SetChecker<char>();
+            var solver = new RuleBasedSolver<char>();
 
             for (int i = 0; i < validBoards.Count; i++)
             {
@@ -200,7 +200,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void RuleBasedSolver_Solve_UnsolvableInput()
         {
-            var solver = new RuleBasedSolver<int>();
+            var solver = new RuleBasedSolver<char>();
 
             for (int i = 0; i < unsolvableBoards.Count; i++)
             {
@@ -213,8 +213,8 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void BitwiseSolver_Solve_ValidInput()
         {
-            var checker = new SetChecker<int>();
-            var solver = new BitwiseSolver<int>();
+            var checker = new SetChecker<char>();
+            var solver = new BitwiseSolver<char>();
 
             for (int i = 0; i < validBoards.Count; i++)
             {
@@ -225,7 +225,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void BitwiseSolver_Solve_UnsolvableInput()
         {
-            var solver = new BitwiseSolver<int>();
+            var solver = new BitwiseSolver<char>();
 
             for (int i = 0; i < unsolvableBoards.Count; i++)
             {

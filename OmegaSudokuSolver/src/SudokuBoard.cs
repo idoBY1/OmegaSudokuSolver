@@ -200,5 +200,27 @@ namespace OmegaSudokuSolver
 
             return retStr;
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || !(obj is SudokuBoard<T>))
+                return false;
+
+            SudokuBoard<T> other = obj as SudokuBoard<T>;
+
+            if (this.BlockSideLength != other.BlockSideLength) 
+                return false;
+
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    if (!this._board[i, j].Equals(other._board[i, j]))
+                        return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

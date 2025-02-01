@@ -5,9 +5,9 @@ namespace OmegaSudokuSolver.Tests
     [TestClass]
     public class CheckersTests
     {
-        private List<SudokuBoard<int>> validBoards;
-        private List<SudokuBoard<int>> invalidBoards;
-        private List<SudokuBoard<int>> solvedBoards;
+        private List<SudokuBoard<char>> validBoards;
+        private List<SudokuBoard<char>> invalidBoards;
+        private List<SudokuBoard<char>> solvedBoards;
 
         public CheckersTests()
         {
@@ -16,7 +16,7 @@ namespace OmegaSudokuSolver.Tests
             solvedBoards = GetSolvedSudokuBoards();
         }
 
-        private List<SudokuBoard<int>> GetValidSudokuBoards()
+        private List<SudokuBoard<char>> GetValidSudokuBoards()
         {
             string[] boardStrings = {
                 "400030000000600800000000001000050090080000600070200000000102700503000040900000000",
@@ -32,7 +32,7 @@ namespace OmegaSudokuSolver.Tests
                 "080010000005000030000000400000605070890000200000300000200000109006700000000400000"
             };
 
-            var boards = new List<SudokuBoard<int>>();
+            var boards = new List<SudokuBoard<char>>();
 
             for (int i = 0; i < boardStrings.Length; i++)
             {
@@ -42,7 +42,7 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
-        private List<SudokuBoard<int>> GetInvalidSudokuBoards()
+        private List<SudokuBoard<char>> GetInvalidSudokuBoards()
         {
             string[] boardStrings = {
                 "850007070000041000300000000001000406070500000000000200742060000000800030000000000",
@@ -53,7 +53,7 @@ namespace OmegaSudokuSolver.Tests
                 "070000310700500000200040000039008000000000062010000000500600007080000900000050000"
             };
 
-            var boards = new List<SudokuBoard<int>>();
+            var boards = new List<SudokuBoard<char>>();
 
             for (int i = 0; i < boardStrings.Length; i++)
             {
@@ -63,7 +63,7 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
-        private List<SudokuBoard<int>> GetSolvedSudokuBoards()
+        private List<SudokuBoard<char>> GetSolvedSudokuBoards()
         {
             string[] boardStrings = {
                 "329816754457293861681457239148975326765342918932168475274681593596734182813529647",
@@ -74,7 +74,7 @@ namespace OmegaSudokuSolver.Tests
                 "349681275876235491125479836682513947493867152517924368951742683264358719738196524"
             };
 
-            var boards = new List<SudokuBoard<int>>();
+            var boards = new List<SudokuBoard<char>>();
 
             for (int i = 0; i < boardStrings.Length; i++)
             {
@@ -87,7 +87,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsLegal_ValidInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < validBoards.Count; i++)
             {
@@ -98,7 +98,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsLegal_InvalidInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < invalidBoards.Count; i++)
             {
@@ -109,7 +109,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_AssertLegal_ValidInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < validBoards.Count; i++)
             {
@@ -120,7 +120,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_AssertLegal_InvalidInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < invalidBoards.Count; i++)
             {
@@ -131,7 +131,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsFull_UnfilledInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < validBoards.Count; i++)
             {
@@ -142,7 +142,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsFull_FilledInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < solvedBoards.Count; i++)
             {
@@ -153,7 +153,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsSolved_SolvedInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < solvedBoards.Count; i++)
             {
@@ -164,7 +164,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsSolved_UnsolvedInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < validBoards.Count; i++)
             {
@@ -175,7 +175,7 @@ namespace OmegaSudokuSolver.Tests
         [TestMethod]
         public void Checker_IsSolved_InvalidInput()
         {
-            var checker = new SetChecker<int>();
+            var checker = new SetChecker<char>();
 
             for (int i = 0; i < invalidBoards.Count; i++)
             {
