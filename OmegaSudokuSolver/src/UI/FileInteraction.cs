@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// Class for getting input from files and writing to files.
+    /// </summary>
     public class FileInteraction : IUserInteraction
     {
         private string _input;
@@ -206,7 +209,10 @@ namespace OmegaSudokuSolver
             }
 
             if (userInput == null || userInput.Equals(""))
+            {
+                SkipWhiteSpace();
                 throw new ReadBoardFailException("Empty input.", "");
+            }
 
             int blockWidth = (int)Math.Sqrt((int)Math.Sqrt(userInput.Length));
 

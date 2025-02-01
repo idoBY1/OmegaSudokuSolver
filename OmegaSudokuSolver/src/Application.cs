@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// Class for running the program according to input from the user.
+    /// </summary>
     public class Application
     {
         private static readonly string EXIT_STR = "q";
@@ -24,6 +27,9 @@ namespace OmegaSudokuSolver
             _mainIO = new ConsoleInteraction();
         }
 
+        /// <summary>
+        /// Start the application.
+        /// </summary>
         public void Run()
         {
             _mainIO.Print("Would you like to enter Sudoku boards through the console or through a file? (type 'f' for file and 'c' for console)\n>>> ", false);
@@ -43,6 +49,9 @@ namespace OmegaSudokuSolver
             _mainIO.Print("Exited program.");
         }
 
+        /// <summary>
+        /// Enter a loop for taking boards from the console and solving them.
+        /// </summary>
         private void ConsoleInOut()
         {
             SudokuBoard<char> board;
@@ -115,6 +124,9 @@ namespace OmegaSudokuSolver
             }
         }
 
+        /// <summary>
+        /// Enter a loop for taking boards from a file and solving them. Writes the solutions to a file and prints them to the console.
+        /// </summary>
         private void FileInOut()
         {
             _mainIO.Print("\nPlease enter the input file name. \n>>> ", false);
@@ -211,6 +223,8 @@ namespace OmegaSudokuSolver
 
                 fileIO.SkipWhiteSpace();
             }
+
+            _mainIO.Print("Finished file.");
         }
     }
 }

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// Class with helper functions for BitwiseSolver.
+    /// </summary>
     public class BitsSolveUtils
     {
         // Array for conversion from nible to amount of bits activated.

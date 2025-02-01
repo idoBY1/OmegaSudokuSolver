@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// Class with helper functions for RuleBasedSolver.
+    /// </summary>
     public class SetSolveUtils
     {
         /// <summary>

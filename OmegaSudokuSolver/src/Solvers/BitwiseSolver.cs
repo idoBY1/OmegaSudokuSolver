@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// This solver combines the rules from RuleBasedSolver with some optimizations like storing the square options <br/>
+    /// as bits, calculating the combinations of squares in advance and limiting the size of tuples to check in the <br/>
+    /// naked / hidden tuples rule.
+    /// </summary>
+    /// <typeparam name="T">The type of data at each square of the board.</typeparam>
     public class BitwiseSolver<T> : ISolver<T>
     {
         private static readonly IBoardChecker<int> checker = new SetChecker<int>();
@@ -19,17 +25,21 @@ namespace OmegaSudokuSolver
 
         public SudokuBoard<T> Solve(SudokuBoard<T> board)
         {
+            // Generate a notes dictionary with all of the options available for the empty cells.
             Dictionary<int, int> notes = BitsSolveUtils.GenerateBoardNotes(board);
 
+            // Generate group indexes. A group is a block / row / column.
             boardGroups = GenerateGroups(board);
 
-            combinationsList = new Dictionary<Tuple<int, int>, HashSet<HashSet<int>>>(); // StoreCombinations(board.Width);
-
+            combinationsList = new Dictionary<Tuple<int, int>, HashSet<HashSet<int>>>();
+            
+            // Convert the board's internal values to bitwise representation and solve the board.
             var solved = BitwiseBackTrack(BitsSolveUtils.ConvertBoardToBitwise(board), notes);
 
             if (solved == null)
                 return null;
 
+            // Convert the solved board back to normal and return it.
             return BitsSolveUtils.ConvertBitwiseBackToBoard(solved, board.LegalValues.ToList(), board.EmptyValue);
         }
 
@@ -52,7 +62,7 @@ namespace OmegaSudokuSolver
 
                 ClearTrivialNotes(board, notes);
 
-                updated = ApplySingles(board, notes) || ObviousTuples(board, notes);
+                updated = ApplySingles(board, notes) || ObviousTuples(notes);
             }
 
             // Find the square with the least possibilities.
@@ -154,16 +164,16 @@ namespace OmegaSudokuSolver
         /// Apllies the rules of obvious tuples to the notes. This function clears notes <br/>
         /// from squares if they are not possible based on other squares in the same group. <br/>
         /// </summary>
-        /// <param name="board">The board to read.</param>
         /// <param name="notes">The notes to change.</param>
         /// <returns>'true' if the function changed the notes and 'false' if it didn't.</returns>
-        private bool ObviousTuples(SudokuBoard<int> board, Dictionary<int, int> notes)
+        private bool ObviousTuples(Dictionary<int, int> notes)
         {
             bool updated = false;
 
+            // Check every group in the board.
             for (int i = 0; i < boardGroups.Count; i++)
             {
-                updated |= ObviousTuplesInGroup(board, notes, boardGroups[i]);
+                updated |= ObviousTuplesInGroup(notes, boardGroups[i]);
             }
 
             return updated;
@@ -178,11 +188,10 @@ namespace OmegaSudokuSolver
         /// assigned to a square from the combination (or else there will be a square without <br/>
         /// a value, which is not possible).
         /// </summary>
-        /// <param name="board">The board to read.</param>
         /// <param name="notes">The notes to change.</param>
-        /// <param name="group">The list of the possitions of every square in the group that has not already been filled.</param>
+        /// <param name="groupIndexes">The list of the possitions of every square in the group.</param>
         /// <returns>'true' if the function changed the notes and 'false' if it didn't.</returns>
-        private bool ObviousTuplesInGroup(SudokuBoard<int> board, Dictionary<int, int> notes, IEnumerable<int> groupIndexes)
+        private bool ObviousTuplesInGroup(Dictionary<int, int> notes, IEnumerable<int> groupIndexes)
         {
             bool updated = false;
 
@@ -195,6 +204,21 @@ namespace OmegaSudokuSolver
             }
 
             // Apply naked tuples.
+            NakedTuplesInGroup(notes, group);
+
+            // Apply hidden tuples.
+            HiddenTuplesInGroup(notes, group);
+
+            return updated;
+        }
+
+        /// <summary>
+        /// Applies obvous tuples from the small combinations to the large. 
+        /// </summary>
+        /// <param name="notes">The notes to change.</param>
+        /// <param name="group">The set of the possitions of every square in the group that has not already been filled.</param>
+        private void NakedTuplesInGroup(Dictionary<int, int> notes, HashSet<int> group)
+        {
             for (int combinationSize = 2; combinationSize <= Math.Min(group.Count() / 2, MAX_OBVIOUS_TUPLES_DEPTH); combinationSize++)
             {
                 HashSet<HashSet<int>> indexCombinations;
@@ -244,8 +268,15 @@ namespace OmegaSudokuSolver
                     }
                 }
             }
+        }
 
-            // Apply hidden tuples.
+        /// <summary>
+        /// Applies obvous tuples from the large combinations to the small. 
+        /// </summary>
+        /// <param name="notes">The notes to change.</param>
+        /// <param name="group">The set of the possitions of every square in the group that has not already been filled.</param>
+        private void HiddenTuplesInGroup(Dictionary<int, int> notes, HashSet<int> group)
+        {
             for (int missingAmount = 1; missingAmount <= Math.Min(group.Count() / 2, MAX_OBVIOUS_TUPLES_DEPTH); missingAmount++)
             {
                 // Choose the values to exclude from the combination
@@ -297,8 +328,6 @@ namespace OmegaSudokuSolver
                     }
                 }
             }
-
-            return updated;
         }
 
         /// <summary>

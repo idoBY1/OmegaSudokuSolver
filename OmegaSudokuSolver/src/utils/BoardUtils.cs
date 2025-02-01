@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace OmegaSudokuSolver
 {
+    /// <summary>
+    /// Class with helper functions for SudokuBoard usage.
+    /// </summary>
     public class BoardUtils
     {
         public static SudokuBoard<int> CreateBoardFromString(string boardString)
