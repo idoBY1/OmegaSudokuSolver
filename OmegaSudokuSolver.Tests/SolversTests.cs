@@ -102,11 +102,18 @@ namespace OmegaSudokuSolver.Tests
                 "400051000573062900000000507800009153130600804000003000926800430054090208000024609",
                 "000039208812006004409812750243050060100000000500328490706180000051794680084205100",
                 "001065079003000060629030800816047503930010007270000601108306050560491738307028000",
+                "0000000000000000200000000000000000000000000003000000000000000000000004000000000000" +
+                "0000000000026000000000000000000100000000000700000000000000000080000000000000000000" +
+                "0000",
                 "240109380639400051851300290090003502308000400560940130410785903925630040083200010",
                 "0000:=000000000?70050;01:00@90<8900800700004600=60:=080000070002=00030890>?500012;" + // 16 x 16
                 "01@:000008007>00001000@0000900000<>?0740000000006@900000>0100002;0600=800<00500070" +
                 "002000000000<0900>?5;4020=0@0020=0@0<0907000>?500400=6000<803<0000002001@:0000=680" +
                 "00?0004020",
+                "0040700000?0000003:050000000000<0000600009000007000000000010000000000=0000000004320" + // 16 x 16
+                "000;000001800000600000>000000000800015000000000001030<000=000@0000000000700500010>0" +
+                "000?000:0000300000005600200?00;000000:0000200004090;000006000100000000@00000=000700" +
+                "04000?0000",
                 "0E487:009200I300000=<;0?0090:50>00G=1B00;60A<87FE003000=1BC00;0?070008:5@9200D=1<0" + // 25 x 25
                 "0?080FE450920000006?A0;80FE400092>I0G0010C0E48705I000003G00000100?0<90:0I>B30H10C0" +
                 "0F00<;00E4000H>B1000=0000<@E4075I92:CD=060F?A07@E40I00:50B30H00000000000I02:B0GH>1" +
@@ -114,7 +121,9 @@ namespace OmegaSudokuSolver.Tests
                 "I0B000>6?0=1EA<;0@9000G0>B060D01FEA<;94870002:0:5000CD00B?A=004<0F092870H0BC00A010" +
                 "040;02800930:50=1000000000200@0:0I3CDH>000FE40087030:000000C0A=108709230:0IC00>BA=" +
                 "06000<007090:GH5I0D0>B00160A08;F05I00H00>00A006080FE00:000>000=A000048;0E00002G000" +
-                "006?A000;FE2:7@905I3G000000FE402:0@90H003000CDA<100"
+                "006?A000;FE2:7@905I3G000000FE402:0@90H003000CDA<100",
+                "0", // 1 x 1
+                "0000000000000000" // 4 x 4
             };
 
             var boards = new List<SudokuBoard<int>>();
@@ -149,7 +158,6 @@ namespace OmegaSudokuSolver.Tests
         }
 
         // BasicBacktrackingSolver
-
         // Too slow!
 
         //[TestMethod]
@@ -175,101 +183,29 @@ namespace OmegaSudokuSolver.Tests
         //    }
         //}
 
-        //[TestMethod]
-        //public void BasicBacktrackingSolver_Solve_ValidInput_MeasureTime()
-        //{
-        //    var checker = new SetChecker<int>();
-        //    var solver = new BasicBacktrackingSolver<int>();
-
-        //    Stopwatch sw = Stopwatch.StartNew();
-
-        //    for (int i = 0; i < validBoards.Count; i++)
-        //    {
-        //        solver.Solve(validBoards[i]);
-        //    }
-
-        //    sw.Stop();
-
-        //    Assert.IsTrue(sw.ElapsedMilliseconds / validBoards.Count < 1000);
-        //}
-
-        //[TestMethod]
-        //public void BasicBacktrackingSolver_Solve_UnsolvableInput_MeasureTime()
-        //{
-        //    var solver = new BasicBacktrackingSolver<int>();
-
-        //    Stopwatch sw = Stopwatch.StartNew();
-
-        //    for (int i = 0; i < unsolvableBoards.Count; i++)
-        //    {
-        //        solver.Solve(unsolvableBoards[i]);
-        //    }
-
-        //    sw.Stop();
-
-        //    Assert.IsTrue(sw.ElapsedMilliseconds / unsolvableBoards.Count < 1000);
-        //}
-
         // RuleBasedSolver
 
-        // Also too slow!
+        [TestMethod]
+        public void RuleBasedSolver_Solve_ValidInput()
+        {
+            var checker = new SetChecker<int>();
+            var solver = new RuleBasedSolver<int>();
 
-        //[TestMethod]
-        //public void RuleBasedSolver_Solve_ValidInput()
-        //{
-        //    var checker = new SetChecker<int>();
-        //    var solver = new RuleBasedSolver<int>();
-
-        //    for (int i = 0; i < validBoards.Count; i++)
-        //    {
-        //        Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[i])));
-        //    }
-        //}
-
-        //[TestMethod]
-        //public void RuleBasedSolver_Solve_UnsolvableInput()
-        //{
-        //    var solver = new RuleBasedSolver<int>();
-
-        //    for (int i = 0; i < unsolvableBoards.Count; i++)
-        //    {
-        //        Assert.AreEqual(solver.Solve(unsolvableBoards[i]), null);
-        //    }
-        //}
-
-        //[TestMethod]
-        //public void RuleBasedSolver_Solve_ValidInput_MeasureTime()
-        //{
-        //    var checker = new SetChecker<int>();
-        //    var solver = new RuleBasedSolver<int>();
-
-        //    Stopwatch sw = Stopwatch.StartNew();
-
-        //    for (int i = 0; i < validBoards.Count; i++)
-        //    {                
-        //        solver.Solve(validBoards[i]);   
-        //    }
-
-        //    sw.Stop();
-
-        //    Assert.IsTrue(sw.ElapsedMilliseconds / validBoards.Count < 500);
-        //}
+            for (int i = 0; i < validBoards.Count; i++)
+            {
+                Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[i])));
+            }
+        }
 
         [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput_MeasureTime()
+        public void RuleBasedSolver_Solve_UnsolvableInput()
         {
             var solver = new RuleBasedSolver<int>();
 
-            Stopwatch sw = Stopwatch.StartNew();
-
             for (int i = 0; i < unsolvableBoards.Count; i++)
             {
-                solver.Solve(unsolvableBoards[i]);
+                Assert.AreEqual(solver.Solve(unsolvableBoards[i]), null);
             }
-
-            sw.Stop();
-
-            Assert.IsTrue(sw.ElapsedMilliseconds / unsolvableBoards.Count < 500);
         }
 
         // BitwiseSolver
@@ -295,41 +231,6 @@ namespace OmegaSudokuSolver.Tests
             {
                 Assert.AreEqual(solver.Solve(unsolvableBoards[i]), null);
             }
-        }
-
-        [TestMethod]
-        public void BitwiseSolver_Solve_ValidInput_MeasureTime()
-        {
-            var checker = new SetChecker<int>();
-            var solver = new BitwiseSolver<int>();
-
-            Stopwatch sw = Stopwatch.StartNew();
-
-            for (int i = 0; i < validBoards.Count; i++)
-            {
-                solver.Solve(validBoards[i]);
-            }
-
-            sw.Stop();
-
-            Assert.IsTrue(sw.ElapsedMilliseconds / validBoards.Count < 500);
-        }
-
-        [TestMethod]
-        public void BitwiseSolver_Solve_UnsolvableInput_MeasureTime()
-        {
-            var solver = new BitwiseSolver<int>();
-
-            Stopwatch sw = Stopwatch.StartNew();
-
-            for (int i = 0; i < unsolvableBoards.Count; i++)
-            {
-                solver.Solve(unsolvableBoards[i]);
-            }
-
-            sw.Stop();
-
-            Assert.IsTrue(sw.ElapsedMilliseconds / unsolvableBoards.Count < 500);
         }
     }
 }

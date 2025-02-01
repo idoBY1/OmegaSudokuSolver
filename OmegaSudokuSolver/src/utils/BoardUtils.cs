@@ -17,7 +17,7 @@ namespace OmegaSudokuSolver
 
             var board = new SudokuBoard<int>(blockLength, Enumerable.Range(1, blockLength * blockLength), 0);
 
-            for (int i = 0; i < boardString.Length; i++)
+            for (int i = 0; i < board.Width * board.Width; i++)
             {
                 board.Set(i, boardString[i] - '0');
             }
