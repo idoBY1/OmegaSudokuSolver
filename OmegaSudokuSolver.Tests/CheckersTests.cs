@@ -85,102 +85,520 @@ namespace OmegaSudokuSolver.Tests
         }
 
         [TestMethod]
-        public void Checker_IsLegal_ValidInput()
+        public void Checker_IsLegal_ValidInput1()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < validBoards.Count; i++)
-            {
-                Assert.IsTrue(checker.IsLegal(validBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[0]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_IsLegal_InvalidInput()
+        public void Checker_IsLegal_ValidInput2()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < invalidBoards.Count; i++)
-            {
-                Assert.IsFalse(checker.IsLegal(invalidBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[1]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_AssertLegal_ValidInput()
+        public void Checker_IsLegal_ValidInput3()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < validBoards.Count; i++)
-            {
-                checker.AssertLegal(validBoards[i]);
-            }
+            bool isLegal = checker.IsLegal(validBoards[2]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_AssertLegal_InvalidInput()
+        public void Checker_IsLegal_ValidInput4()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < invalidBoards.Count; i++)
-            {
-                Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[3]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_IsFull_UnfilledInput()
+        public void Checker_IsLegal_ValidInput5()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < validBoards.Count; i++)
-            {
-                Assert.IsFalse(checker.IsFull(validBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[4]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_IsFull_FilledInput()
+        public void Checker_IsLegal_ValidInput6()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < solvedBoards.Count; i++)
-            {
-                Assert.IsTrue(checker.IsFull(solvedBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[5]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_IsSolved_SolvedInput()
+        public void Checker_IsLegal_ValidInput7()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < solvedBoards.Count; i++)
-            {
-                Assert.IsTrue(checker.IsSolved(solvedBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[6]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_IsSolved_UnsolvedInput()
+        public void Checker_IsLegal_ValidInput8()
         {
             var checker = new SetChecker<char>();
-
-            for (int i = 0; i < validBoards.Count; i++)
-            {
-                Assert.IsFalse(checker.IsSolved(validBoards[i]));
-            }
+            bool isLegal = checker.IsLegal(validBoards[7]);
+            Assert.IsTrue(isLegal);
         }
 
         [TestMethod]
-        public void Checker_IsSolved_InvalidInput()
+        public void Checker_IsLegal_ValidInput9()
         {
             var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(validBoards[8]);
+            Assert.IsTrue(isLegal);
+        }
 
-            for (int i = 0; i < invalidBoards.Count; i++)
-            {
-                Assert.IsFalse(checker.IsSolved(invalidBoards[i]));
-            }
+        [TestMethod]
+        public void Checker_IsLegal_ValidInput10()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(validBoards[9]);
+            Assert.IsTrue(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_IsLegal_ValidInput11()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(validBoards[10]);
+            Assert.IsTrue(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_IsLegal_InvalidInput1()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(invalidBoards[0]);
+            Assert.IsFalse(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_IsLegal_InvalidInput2()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(invalidBoards[1]);
+            Assert.IsFalse(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_IsLegal_InvalidInput3()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(invalidBoards[2]);
+            Assert.IsFalse(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_IsLegal_InvalidInput4()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(invalidBoards[3]);
+            Assert.IsFalse(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_IsLegal_InvalidInput5()
+        {
+            var checker = new SetChecker<char>();
+            bool isLegal = checker.IsLegal(invalidBoards[4]);
+            Assert.IsFalse(isLegal);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput1()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[0]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput2()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[1]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput3()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[2]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput4()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[3]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput5()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[4]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput6()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[5]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput7()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[6]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput8()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[7]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput9()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[8]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput10()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[9]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_ValidInput11()
+        {
+            var checker = new SetChecker<char>();
+            checker.AssertLegal(validBoards[10]);
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_InvalidInput1()
+        {
+            var checker = new SetChecker<char>();
+            Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[0]));
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_InvalidInput2()
+        {
+            var checker = new SetChecker<char>();
+            Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[1]));
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_InvalidInput3()
+        {
+            var checker = new SetChecker<char>();
+            Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[2]));
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_InvalidInput4()
+        {
+            var checker = new SetChecker<char>();
+            Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[3]));
+        }
+
+        [TestMethod]
+        public void Checker_AssertLegal_InvalidInput5()
+        {
+            var checker = new SetChecker<char>();
+            Assert.ThrowsException<IllegalBoardException>(() => checker.AssertLegal(invalidBoards[4]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput1()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[0]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput2()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[1]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput3()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[2]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput4()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[3]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput5()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[4]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput6()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[5]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput7()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[6]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput8()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[7]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput9()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[8]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput10()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[9]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_ValidInput11()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsFull(validBoards[10]));
+        }
+
+
+        [TestMethod]
+        public void Checker_IsFull_SolvedInput1()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsFull(solvedBoards[0]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_SolvedInput2()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsFull(solvedBoards[1]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_SolvedInput3()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsFull(solvedBoards[2]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_SolvedInput4()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsFull(solvedBoards[3]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_SolvedInput5()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsFull(solvedBoards[4]));
+        }
+
+        [TestMethod]
+        public void Checker_IsFull_SolvedInput6()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsFull(solvedBoards[5]));
+        }
+
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput1()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsSolved(solvedBoards[0]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput2()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsSolved(solvedBoards[1]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput3()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsSolved(solvedBoards[2]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput4()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsSolved(solvedBoards[3]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput5()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsSolved(solvedBoards[4]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_SolvedInput6()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsTrue(checker.IsSolved(solvedBoards[5]));
+        }
+
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput1()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[0]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput2()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[1]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput3()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[2]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput4()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[3]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput5()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[4]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput6()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[5]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput7()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[6]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput8()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[7]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput9()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[8]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput10()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[9]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_ValidInput11()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(validBoards[10]));
+        }
+
+
+        [TestMethod]
+        public void Checker_IsSolved_InvalidInput1()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(invalidBoards[0]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_InvalidInput2()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(invalidBoards[1]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_InvalidInput3()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(invalidBoards[2]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_InvalidInput4()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(invalidBoards[3]));
+        }
+
+        [TestMethod]
+        public void Checker_IsSolved_InvalidInput5()
+        {
+            var checker = new SetChecker<char>();
+            Assert.IsFalse(checker.IsSolved(invalidBoards[4]));
         }
     }
 }
