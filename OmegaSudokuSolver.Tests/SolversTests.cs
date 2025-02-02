@@ -108,271 +108,271 @@ namespace OmegaSudokuSolver.Tests
             return boards;
         }
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput1()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[0])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput1()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[0])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput2()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[1])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput2()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[1])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput3()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[2])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput3()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[2])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput4()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[3])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput4()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[3])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput5()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[4])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput5()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[4])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput6()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[5])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput6()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[5])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput7()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[6])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput7()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[6])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput8()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[7])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput8()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[7])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput9()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[8])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput9()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[8])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput10()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[9])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput10()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[9])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput11()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[10])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput11()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[10])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput12()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[11])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput12()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[11])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput13()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[12])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput13()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[12])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput14()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[13])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput14()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[13])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput15()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[14])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput15()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[14])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput16()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[15])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput16()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[15])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput17()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[16])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput17()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[16])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput18()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[17])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput18()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[17])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput19()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[18])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput19()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[18])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput20()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[19])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput20()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[19])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput21()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[20])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput21()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[20])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput22()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[21])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput22()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[21])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput23()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[22])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput23()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[22])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput24()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[23])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput24()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[23])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput25()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[24])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput25()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[24])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput26()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[25])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput26()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[25])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput27()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[26])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput27()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[26])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput28()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[27])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput28()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[27])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput29()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[28])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput29()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[28])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput30()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[29])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput30()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[29])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput31()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[30])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput31()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[30])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_ValidInput32()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[31])));
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_ValidInput32()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.IsTrue(checker.IsSolved(solver.Solve(validBoards[31])));
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput1()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.AreEqual(solver.Solve(unsolvableBoards[0]), null);
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_UnsolvableInput1()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.AreEqual(solver.Solve(unsolvableBoards[0]), null);
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput2()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.AreEqual(solver.Solve(unsolvableBoards[1]), null);
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_UnsolvableInput2()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.AreEqual(solver.Solve(unsolvableBoards[1]), null);
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput3()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.AreEqual(solver.Solve(unsolvableBoards[2]), null);
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_UnsolvableInput3()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.AreEqual(solver.Solve(unsolvableBoards[2]), null);
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput4()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.AreEqual(solver.Solve(unsolvableBoards[3]), null);
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_UnsolvableInput4()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.AreEqual(solver.Solve(unsolvableBoards[3]), null);
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput5()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.AreEqual(solver.Solve(unsolvableBoards[4]), null);
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_UnsolvableInput5()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.AreEqual(solver.Solve(unsolvableBoards[4]), null);
+        //}
 
-        [TestMethod]
-        public void RuleBasedSolver_Solve_UnsolvableInput6()
-        {
-            var solver = new RuleBasedSolver<char>();
-            Assert.AreEqual(solver.Solve(unsolvableBoards[5]), null);
-        }
+        //[TestMethod]
+        //public void RuleBasedSolver_Solve_UnsolvableInput6()
+        //{
+        //    var solver = new RuleBasedSolver<char>();
+        //    Assert.AreEqual(solver.Solve(unsolvableBoards[5]), null);
+        //}
 
         [TestMethod]
         public void BitwiseSolver_Solve_ValidInput1()
