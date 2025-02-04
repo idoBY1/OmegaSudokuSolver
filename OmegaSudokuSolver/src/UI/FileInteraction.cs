@@ -218,6 +218,10 @@ namespace OmegaSudokuSolver
 
             int boardWidth = blockWidth * blockWidth;
 
+            if (boardWidth * boardWidth != userInput.Length)
+                throw new ReadBoardFailException($"Invalid board size. received {userInput.Length} characters.",
+                    userInput);
+
             var legalValues = new HashSet<char>();
 
             foreach (int i in Enumerable.Range('1', boardWidth))
