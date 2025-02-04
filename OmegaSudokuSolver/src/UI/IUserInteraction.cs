@@ -22,7 +22,7 @@ namespace OmegaSudokuSolver
         /// Gets a message from the user.
         /// </summary>
         /// <returns>The message as a string.</returns>
-        public string? Read();
+        public string Read();
 
         /// <summary>
         /// Reads a Sudoku board from the user.

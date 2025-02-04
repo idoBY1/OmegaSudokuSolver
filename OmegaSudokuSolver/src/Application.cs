@@ -32,11 +32,12 @@ namespace OmegaSudokuSolver
         /// </summary>
         public void Run()
         {
-            _mainIO.Print("Would you like to enter Sudoku boards through the console or through a file? (type 'f' for file and 'c' for console)\n>>> ", false);
+            _mainIO.Print($"Would you like to enter Sudoku boards through the console or through a file? \n" +
+                $"(Type 'f' for file and 'c' for console, enter '{EXIT_STR}' to quit)\n>>> ", false);
 
             string? userInputMessage = _mainIO.Read();
 
-            if (userInputMessage != null)
+            while (!userInputMessage.Equals(EXIT_STR))
             {
                 if (userInputMessage.ToLower().StartsWith("c"))
                     ConsoleInOut();
@@ -44,6 +45,11 @@ namespace OmegaSudokuSolver
                     FileInOut();
                 else
                     _mainIO.Print("Invalid input source.");
+
+                _mainIO.Print($"\nWould you like to enter Sudoku boards through the console or through a file? \n" +
+                $"(Type 'f' for file and 'c' for console, enter '{EXIT_STR}' to quit)\n>>> ", false);
+
+                userInputMessage = _mainIO.Read();
             }
 
             _mainIO.Print("Exited program.");
@@ -56,7 +62,7 @@ namespace OmegaSudokuSolver
         {
             SudokuBoard<char> board;
 
-            _mainIO.Print($"\nEnter boards to solve: (Enter '{EXIT_STR}' to quit)");
+            _mainIO.Print($"\nEnter boards to solve: (Enter '{EXIT_STR}' to return to input source selection)");
 
             while (true)
             {
@@ -141,7 +147,7 @@ namespace OmegaSudokuSolver
 
             _mainIO.Print($"Reading from '{inputFilePath}'.");
 
-            _mainIO.Print($"\nPlease enter the output file name. (for the default name '{DEFAULT_OUTPUT_FILE_NAME}' leave this field empty)\n>>> ", false);
+            _mainIO.Print($"\nPlease enter the output file name. (For the default name '{DEFAULT_OUTPUT_FILE_NAME}' leave this field empty)\n>>> ", false);
 
             string outputFilePath = _mainIO.Read();
 
