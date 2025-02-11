@@ -16,6 +16,9 @@ namespace OmegaSudokuSolver
 
         private static readonly string DEFAULT_OUTPUT_FILE_NAME = "board_solutions.txt";
 
+        // Change this to the path of the input files' directory.
+        private static readonly string INPUT_FILES_DIR = "../../../InputFiles"; 
+
         private IBoardChecker<char> _boardChecker;
         private ISolver<char> _solver;
         private IUserInteraction _mainIO;
@@ -137,7 +140,9 @@ namespace OmegaSudokuSolver
         {
             _mainIO.Print("\nPlease enter the input file name. \n>>> ", false);
 
-            string inputFilePath = _mainIO.Read();
+            string inputFileName = _mainIO.Read();
+
+            string inputFilePath = INPUT_FILES_DIR + "/" + inputFileName;
 
             if (!File.Exists(inputFilePath))
             {
@@ -145,16 +150,18 @@ namespace OmegaSudokuSolver
                 return;
             }
 
-            _mainIO.Print($"Reading from '{inputFilePath}'.");
+            _mainIO.Print($"Reading from '{inputFileName}'.");
 
             _mainIO.Print($"\nPlease enter the output file name. (For the default name '{DEFAULT_OUTPUT_FILE_NAME}' leave this field empty)\n>>> ", false);
 
-            string outputFilePath = _mainIO.Read();
+            string outputFileName = _mainIO.Read();
 
-            if (outputFilePath == null || outputFilePath.Length == 0) 
-                outputFilePath = DEFAULT_OUTPUT_FILE_NAME;
+            if (outputFileName == null || outputFileName.Length == 0)
+                outputFileName = DEFAULT_OUTPUT_FILE_NAME;
 
-            _mainIO.Print($"Writing to '{outputFilePath}'.\n");
+            string outputFilePath = INPUT_FILES_DIR + "/" + outputFileName;
+
+            _mainIO.Print($"Writing to '{outputFileName}'.\n");
 
             var fileIO = new FileInteraction(inputFilePath, outputFilePath);
             fileIO.ClearOutputFile();
